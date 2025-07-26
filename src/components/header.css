@@ -1,0 +1,136 @@
+header .container {
+    background-color: var(--color-black);
+    border-radius: 0 0 32px 32px;
+    padding: 24px 32px;
+    color: var(--color-white);
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+header .container section:first-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+section:nth-child(2) {
+    display: block;
+    height: 0;
+    overflow: hidden;
+    transition: all ease-in-out 0.3s;
+}
+
+.container:has(section:nth-child(2):not(.open)) {
+    gap: 0;
+}
+
+section:nth-child(2).open {
+    height: 191px;
+}
+
+section:nth-child(2) ul li > * {
+    padding: 12px 0;
+}
+
+section:nth-child(2) ul li > button {
+    margin: 12px 0;
+}
+
+header section:first-child nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+header section:first-child ul {
+    display: none;
+    align-items: center;
+}
+
+header img {
+    height: 36px;
+}
+
+header a {
+    padding: 8px 16px;
+    color: var(--color-white);
+}
+
+header figure {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+
+header figcaption {
+    display: none;
+}
+
+header figure img {
+    border-radius: 36px;
+    background-color: grey;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    height: 48px;
+    width: 48px;
+}
+
+/* classes */
+.header-dropdown {
+    position: absolute;
+    border: 2px solid var(--color-black);
+    color: var(--color-black);
+    top: 0;
+    z-index: -1;
+    border-top: 0;
+    border-radius: 0 0 8px 8px;
+    background: var(--color-white);
+    right: 32px;
+    transition: top ease-in-out 0.3s;
+}
+
+.header-dropdown.open {
+    top: 100%;
+}
+
+.header-dropdown a {
+    color: var(--color-black);
+}
+
+.mobile {
+    display: block;
+}
+
+.mobile-flex {
+    display: flex;
+}
+
+.not-mobile-flex {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    header section:first-child ul {
+        display: flex;
+    }
+
+    header .container {
+        gap: 0;
+    }
+    header figcaption {
+        display: block;
+    }
+
+    /* classes */
+    .mobile,
+    .mobile-flex {
+        display: none !important;
+    }
+
+    .not-mobile-flex {
+        display: flex;
+    }
+}
