@@ -19,9 +19,9 @@ function Header() {
     return (
         <header>
             <div class="container">
-                <section>
+                <section class="desktop-menu">
                     <nav>
-                        <img src={logo} alt="App Logo"></img>
+                        <img src={logo} alt="App Logo" class="logo"></img>
                         <ul>
                             <li>
                                 <a href="">Tasks</a>
@@ -33,27 +33,24 @@ function Header() {
                             </li>
                         </ul>
                     </nav>
-                    <figure class="not-mobile-flex">
+                    <figure class="profile">
                         <figcaption>John</figcaption>
                         <img
-                            class="profile"
                             alt="Profile Picture"
                             onClick={() => toggleProfileMenu()}
                         ></img>
                     </figure>
-                    <figure class="mobile-flex">
-                        <figcaption>John</figcaption>
+                    <figure class="profile mobile">
                         <img
-                            class="profile"
                             alt="Profile Picture"
                             onClick={() => toggleMobileMenu()}
                         ></img>
                     </figure>
-                    <div class={`not-mobile-flex header-dropdown ${openClass}`}>
+                    <div class={`header-dropdown ${openClass}`}>
                         <a href="#">Logout</a>
                     </div>
                 </section>
-                <section class={`mobile ${mobileMenuOpenClass}`}>
+                <section class={`mobile-menu ${mobileMenuOpenClass}`}>
                     <nav>
                         <ul>
                             <li>
