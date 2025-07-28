@@ -1,0 +1,9 @@
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-white);
+
+    padding: 16px;
+    border-radius: 16px;
+}

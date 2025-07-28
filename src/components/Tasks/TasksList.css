@@ -1,0 +1,8 @@
+.tasks-list-header {
+    margin-bottom: 24px;
+}
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
