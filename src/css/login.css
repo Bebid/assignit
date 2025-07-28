@@ -11,6 +11,7 @@
 #login .container {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .card {
     max-width: 520px;
