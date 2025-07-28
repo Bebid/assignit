@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import logo from "../images/AI-Logo.png";
 import "./header.css";
 
+import Button from "./Button";
+
 function Header() {
     const [profileStatus, setProfileStatus] = useState(false);
     const [mobileMenuStatus, setMobileMenuStatus] = useState(false);
@@ -27,9 +29,9 @@ function Header() {
                                 <a href="">Tasks</a>
                             </li>
                             <li>
-                                <button class="button secondary small">
+                                <Button type="inverted" size="small">
                                     Create Task
-                                </button>
+                                </Button>
                             </li>
                         </ul>
                     </nav>
@@ -60,7 +62,7 @@ function Header() {
                                 <a href="">Tasks</a>
                             </li>
                             <li>
-                                <button class="button secondary small">
+                                <button class="button inverted small">
                                     Create Task
                                 </button>
                             </li>

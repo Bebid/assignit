@@ -1,0 +1,25 @@
+.button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    border-radius: 32px;
+    border: 2px solid var(--color-black);
+    background-color: var(--color-black);
+    font-size: 16px;
+    color: var(--color-white);
+}
+
+.button.small {
+    padding: 8px 16px;
+}
+
+.button.inverted {
+    border-color: var(--color-white);
+    color: var(--color-white);
+}
+
+.button.secondary {
+    background-color: var(--color-white);
+    color: var(--color-black);
+}
