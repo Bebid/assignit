@@ -5,7 +5,7 @@ function Textarea({ id, label, placeholder = `Enter ${id} here` }) {
     return (
         <div className="form-textarea">
             <label htmlFor={id}>{label}</label>
-            <div class="textarea-container">
+            <div className="textarea-container">
                 <textarea id={id} placeholder={placeholder}></textarea>
             </div>
         </div>

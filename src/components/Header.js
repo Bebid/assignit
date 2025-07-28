@@ -20,10 +20,10 @@ function Header() {
 
     return (
         <header>
-            <div class="container">
-                <section class="desktop-menu">
+            <div className="container">
+                <section className="desktop-menu">
                     <nav>
-                        <img src={logo} alt="App Logo" class="logo"></img>
+                        <img src={logo} alt="App Logo" className="logo"></img>
                         <ul>
                             <li>
                                 <a href="">Tasks</a>
@@ -35,24 +35,24 @@ function Header() {
                             </li>
                         </ul>
                     </nav>
-                    <figure class="profile">
+                    <figure className="profile">
                         <figcaption>John</figcaption>
                         <img
                             alt="Profile Picture"
                             onClick={() => toggleProfileMenu()}
                         ></img>
                     </figure>
-                    <figure class="profile mobile">
+                    <figure className="profile mobile">
                         <img
                             alt="Profile Picture"
                             onClick={() => toggleMobileMenu()}
                         ></img>
                     </figure>
-                    <div class={`header-dropdown ${openClass}`}>
+                    <div className={`header-dropdown ${openClass}`}>
                         <a href="#">Logout</a>
                     </div>
                 </section>
-                <section class={`mobile-menu ${mobileMenuOpenClass}`}>
+                <section className={`mobile-menu ${mobileMenuOpenClass}`}>
                     <nav>
                         <ul>
                             <li>
@@ -62,7 +62,7 @@ function Header() {
                                 <a href="">Tasks</a>
                             </li>
                             <li>
-                                <button class="button inverted small">
+                                <button className="button inverted small">
                                     Create Task
                                 </button>
                             </li>

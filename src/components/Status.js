@@ -7,7 +7,7 @@ function Status({ code }) {
         P: "Pending",
         C: "Closed",
     };
-    return <p class={`status-${code}`}>{statusCodes[code]}</p>;
+    return <p className={`status-${code}`}>{statusCodes[code]}</p>;
 }
 
 export default Status;

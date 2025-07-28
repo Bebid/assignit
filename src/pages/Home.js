@@ -34,7 +34,7 @@ function Home() {
         <div>
             <Header></Header>
             <main>
-                <div class="container">
+                <div className="container">
                     <TasksList
                         headline="Tasks assigned to me"
                         tasks={tasks}

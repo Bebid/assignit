@@ -4,7 +4,7 @@ import Status from "../Status";
 
 function TaskItem({ task }) {
     return (
-        <li class="task-item">
+        <li className="task-item">
             <p>{task.title}</p>
             <Status code={task.status}></Status>
         </li>

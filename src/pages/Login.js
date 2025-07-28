@@ -8,10 +8,10 @@ import Button from "../components/Button";
 const Login = () => {
     return (
         <section id="login">
-            <div class="container">
-                <div class="card">
-                    <div class="card-header font-cursive">Assign.It</div>
-                    <div class="card-body">
+            <div className="container">
+                <div className="card">
+                    <div className="card-header font-cursive">Assign.It</div>
+                    <div className="card-body">
                         <h1>Hello, Welcome!</h1>
                         <Button type="secondary">
                             <img src={google}></img>Login with Google
