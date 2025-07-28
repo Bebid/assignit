@@ -23,7 +23,9 @@ function Dropdown({ label, selected, items }) {
                 </button>
                 <ul>
                     {Object.entries(items).map((item) => (
-                        <li onClick={() => selectItem(item[0])}>{item[1]}</li>
+                        <li key={item[0]} onClick={() => selectItem(item[0])}>
+                            {item[1]}
+                        </li>
                     ))}
                 </ul>
             </div>
