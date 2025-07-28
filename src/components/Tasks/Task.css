@@ -1,0 +1,9 @@
+.task {
+    background-color: var(--color-white);
+    border-radius: 32px;
+    padding: 32px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
