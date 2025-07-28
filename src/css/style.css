@@ -1,6 +1,8 @@
 /* global */
 :root {
-    --bg-grey: #f3f3f3;
+    --color-grey: #f3f3f3;
+    --bg-yellow: #fffce3;
+    --bg-green: #e5ffde;
     --color-white: white;
     --color-black: black;
 }
@@ -19,7 +21,7 @@ body,
 
 body {
     font-family: "Roboto";
-    background-color: var(--bg-grey);
+    background-color: var(--color-grey);
 }
 
 h1 {
@@ -35,41 +37,38 @@ a {
     display: block;
 }
 
+main {
+    padding-top: 40px;
+}
+
+label {
+    font-weight: bold;
+}
+
 /* classes */
 .container {
     width: 100%;
     max-width: 1280px;
     padding: 0 16px;
     margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .font-cursive {
     font-family: "Beth Ellen", cursive;
 }
 
-.button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px;
-    border-radius: 32px;
-    border: 2px solid var(--color-black);
-    background: none;
-    font-size: 16px;
-}
-
-.button.small {
-    padding: 8px 16px;
-}
-
-.button.secondary {
-    border-color: var(--color-white);
-    color: var(--color-white);
-}
-
 @media (min-width: 768px) {
     .container {
         padding: 0 24px;
+
+        gap: 60px;
+    }
+    main {
+        padding-top: 60px;
     }
 }
 
