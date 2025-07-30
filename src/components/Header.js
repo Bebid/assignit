@@ -7,7 +7,13 @@ import Button from "./Button";
 import supabase from "../supabase";
 import { NavLink } from "react-router-dom";
 
-function Header() {
+function Header({
+    profile: {
+        user: {
+            user_metadata: { avatar_url, name },
+        },
+    },
+}) {
     const [profileStatus, setProfileStatus] = useState(false);
     const [mobileMenuStatus, setMobileMenuStatus] = useState(false);
     const openClass = profileStatus ? "open" : "";
@@ -45,14 +51,16 @@ function Header() {
                         </ul>
                     </nav>
                     <figure className="profile">
-                        <figcaption>John</figcaption>
+                        <figcaption>{name}</figcaption>
                         <img
+                            src={avatar_url}
                             alt="Profile Picture"
                             onClick={() => toggleProfileMenu()}
                         ></img>
                     </figure>
                     <figure className="profile mobile">
                         <img
+                            src={avatar_url}
                             alt="Profile Picture"
                             onClick={() => toggleMobileMenu()}
                         ></img>
@@ -68,7 +76,7 @@ function Header() {
                     <nav>
                         <ul>
                             <li>
-                                <p>John</p>
+                                <p>{name}</p>
                             </li>
                             <li>
                                 <NavLink to="/home">Tasks</NavLink>

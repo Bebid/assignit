@@ -35,7 +35,7 @@ function Home() {
     ];
     return session ? (
         <div>
-            <Header></Header>
+            <Header profile={session}></Header>
             <main>
                 <div className="container">
                     <TasksList
