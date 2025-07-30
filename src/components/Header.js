@@ -4,6 +4,9 @@ import "./header.css";
 
 import Button from "./Button";
 
+import supabase from "../supabase";
+import { NavLink } from "react-router-dom";
+
 function Header() {
     const [profileStatus, setProfileStatus] = useState(false);
     const [mobileMenuStatus, setMobileMenuStatus] = useState(false);
@@ -18,6 +21,10 @@ function Header() {
         setMobileMenuStatus(!mobileMenuStatus);
     }
 
+    function logout() {
+        supabase.auth.signOut();
+    }
+
     return (
         <header>
             <div className="container">
@@ -26,12 +33,14 @@ function Header() {
                         <img src={logo} alt="App Logo" className="logo"></img>
                         <ul>
                             <li>
-                                <a href="">Tasks</a>
+                                <NavLink to="/home">Tasks</NavLink>
                             </li>
                             <li>
-                                <Button type="inverted" size="small">
-                                    Create Task
-                                </Button>
+                                <NavLink to="/tasks/create">
+                                    <Button type="inverted" size="small">
+                                        Create Task
+                                    </Button>
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>
@@ -48,8 +57,11 @@ function Header() {
                             onClick={() => toggleMobileMenu()}
                         ></img>
                     </figure>
-                    <div className={`header-dropdown ${openClass}`}>
-                        <a href="#">Logout</a>
+                    <div
+                        onClick={() => logout()}
+                        className={`header-dropdown ${openClass}`}
+                    >
+                        <p>Logout</p>
                     </div>
                 </section>
                 <section className={`mobile-menu ${mobileMenuOpenClass}`}>
@@ -59,15 +71,17 @@ function Header() {
                                 <p>John</p>
                             </li>
                             <li>
-                                <a href="">Tasks</a>
+                                <NavLink to="/home">Tasks</NavLink>
                             </li>
                             <li>
-                                <button className="button inverted small">
-                                    Create Task
-                                </button>
+                                <NavLink to="/tasks/create">
+                                    <Button type="inverted" size="small">
+                                        Create Task
+                                    </Button>
+                                </NavLink>
                             </li>
-                            <li>
-                                <a href="#">Logout</a>
+                            <li onClick={() => logout()}>
+                                <p>Logout</p>
                             </li>
                         </ul>
                     </nav>

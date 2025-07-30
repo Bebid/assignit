@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Header from "../components/Header";
 import TasksList from "../components/Tasks/TasksList";
+import { SessionContext } from "../App";
+import { Navigate } from "react-router-dom";
 
 function Home() {
+    const session = useContext(SessionContext);
     const tasks = [
         {
             id: 1,
@@ -30,7 +33,7 @@ function Home() {
             assigneeId: 2,
         },
     ];
-    return (
+    return session ? (
         <div>
             <Header></Header>
             <main>
@@ -46,6 +49,8 @@ function Home() {
                 </div>
             </main>
         </div>
+    ) : (
+        <Navigate to="/"></Navigate>
     );
 }
 

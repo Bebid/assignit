@@ -35,6 +35,10 @@ header .container {
     margin: 12px 0;
 }
 
+.mobile-menu ul li > p {
+    cursor: pointer;
+}
+
 .mobile-menu a {
     color: var(--color-white);
 }
@@ -103,21 +107,23 @@ header .container {
         position: absolute;
         border: 2px solid var(--color-black);
         color: var(--color-black);
-        top: 0;
-        z-index: -1;
+        top: 100%;
+        opacity: 0;
         border-top: 0;
         border-radius: 0 0 8px 8px;
         background: var(--color-white);
         right: 32px;
-        transition: top ease-in-out 0.3s;
+        transition: opacity ease-in-out 0.3s;
+        cursor: pointer;
     }
 
     .header-dropdown.open {
-        top: 100%;
+        opacity: 100%;
     }
 
-    .header-dropdown a {
+    .header-dropdown p {
         color: var(--color-black);
+        padding: 8px 16px;
     }
 
     .profile {
