@@ -71,6 +71,16 @@ function App() {
                     </SessionContext.Provider>
                 }
             ></Route>
+            <Route
+                path="/tasks/view/:id"
+                element={
+                    <SessionContext.Provider
+                        value={{ session, gettingSession }}
+                    >
+                        <TaskView></TaskView>
+                    </SessionContext.Provider>
+                }
+            ></Route>
         </Routes>
     );
     // return <CreateTask></CreateTask>;

@@ -1,8 +1,9 @@
-.task-item {
+.task-item a {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--color-white);
+    color: var(--color-black);
 
     padding: 16px;
     border-radius: 16px;

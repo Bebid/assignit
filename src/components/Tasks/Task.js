@@ -4,40 +4,54 @@ import "./Task.css";
 import Input from "../Form/Input";
 import Textarea from "../Form/Textarea";
 import Dropdown from "../Form/Dropdown";
+import supabase from "../../supabase";
 
-function Task() {
-    const title = "Login with Google";
-    const value = "John Doe";
+function Task({
+    task: { id, title, assigned_to, created_by, description, status },
+}) {
+    const statuses = [
+        { id: "O", text: "Open" },
+        { id: "P", text: "Pending" },
+        { id: "C", text: "Closed" },
+    ];
+
+    const selectedIndex = statuses.findIndex((stat) => stat.id == status);
+
+    const changeStatus = (status) => {
+        supabase
+            .from("tasks")
+            .update({
+                status: status,
+            })
+            .eq("id", id)
+            .then((result) => {
+                console.log(result);
+            });
+    };
 
     return (
         <article className="task">
             <h2>{title}</h2>
             <Dropdown
                 label="Status"
-                selected="O"
-                items={[
-                    { id: "O", text: "Opening" },
-                    { id: "P", text: "Pending" },
-                    { id: "C", text: "Closing" },
-                ]}
+                selected={selectedIndex}
+                items={statuses}
+                onSelect={changeStatus}
             ></Dropdown>
-            <Dropdown
+            <Input
+                id="assigned_to"
                 label="Assignee"
-                selected="john"
-                items={{
-                    john: "John David Apostol",
-                    sog: "Sog Apostol",
-                    arnold: "Arnold Apostol",
-                }}
-            ></Dropdown>
+                display={true}
+                value={assigned_to.name}
+            ></Input>
             <Input
                 id="creator"
                 label="Creator"
                 display={true}
-                value={value}
+                value={created_by.name}
             ></Input>
             <Textarea id="description" label="Description" display={true}>
-                {value}
+                {description}
             </Textarea>
         </article>
     );
