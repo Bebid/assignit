@@ -24,6 +24,7 @@ function App() {
                 supabase
                     .from("users")
                     .select()
+                    .eq("id", session.user.id)
                     .then(({ data }) => {
                         if (data.length == 0) {
                             supabase.from("users").insert({
