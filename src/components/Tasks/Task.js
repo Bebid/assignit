@@ -15,11 +15,11 @@ function Task() {
             <Dropdown
                 label="Status"
                 selected="O"
-                items={{
-                    O: "Open",
-                    P: "Pending",
-                    C: "Closed",
-                }}
+                items={[
+                    { id: "O", text: "Opening" },
+                    { id: "P", text: "Pending" },
+                    { id: "C", text: "Closing" },
+                ]}
             ></Dropdown>
             <Dropdown
                 label="Assignee"
