@@ -10,11 +10,12 @@ const Input = React.forwardRef(
             type = "text",
             display = false,
             value,
+            invalid,
         },
         ref
     ) => {
         return (
-            <p className="form-input">
+            <p className={`form-input ${invalid ? "invalid" : ""}`}>
                 <label htmlFor={id}>{label}</label>
                 <input
                     ref={ref}
@@ -26,6 +27,9 @@ const Input = React.forwardRef(
                     value={value}
                     disabled={display}
                 ></input>
+                {invalid && (
+                    <span class="error-message">Field is required</span>
+                )}
             </p>
         );
     }

@@ -19,3 +19,7 @@ input.display {
     background: none;
     color: var(--color-black);
 }
+
+.invalid input {
+    border-color: red;
+}

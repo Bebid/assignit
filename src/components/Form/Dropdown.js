@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import chevronDown from "../../images/chevron-down.svg";
 import "./Dropdown.css";
 
-function Dropdown({ label, selected, items, onSelect }) {
+function Dropdown({ label, selected, items, onSelect, invalid }) {
     const [open, setOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(items[selected]);
 
@@ -19,7 +19,11 @@ function Dropdown({ label, selected, items, onSelect }) {
         onSelect && onSelect(items[index].id);
     }
     return (
-        <div className={`dropdown ${open ? "open" : ""}`}>
+        <div
+            className={`dropdown ${invalid ? "invalid" : ""} ${
+                open ? "open" : ""
+            }`}
+        >
             <label>{label}</label>
 
             <div>
@@ -39,6 +43,9 @@ function Dropdown({ label, selected, items, onSelect }) {
                     ))}
                 </ul>
             </div>
+            {invalid && (
+                <p className="error-message">Please select an option</p>
+            )}
         </div>
     );
 }

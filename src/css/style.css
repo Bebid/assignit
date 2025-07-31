@@ -61,6 +61,10 @@ label {
     font-family: "Beth Ellen", cursive;
 }
 
+.error-message {
+    color: red;
+}
+
 @media (min-width: 768px) {
     .container {
         padding: 0 24px;

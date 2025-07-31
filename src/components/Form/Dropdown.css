@@ -52,3 +52,7 @@
 .dropdown.open button img {
     transform: rotate(180deg);
 }
+
+.dropdown.invalid div {
+    border-color: red;
+}
