@@ -8,22 +8,7 @@ import { Navigate } from "react-router-dom";
 
 function TaskView() {
     const { session, gettingSession } = useContext(SessionContext);
-    const [task, setTask] = useState({});
-    const [taskLoading, setTaskLoading] = useState(true);
     const { id } = useParams();
-
-    useEffect(() => {
-        supabase
-            .from("tasks")
-            .select(
-                "*, assigned_to:users!tasks_assigned_to_fkey(name), created_by:users!tasks_created_by_fkey(name)"
-            )
-            .eq("id", id)
-            .then(({ data }) => {
-                setTask(data[0]);
-                setTaskLoading(false);
-            });
-    }, []);
 
     return !gettingSession ? (
         session ? (
@@ -31,7 +16,7 @@ function TaskView() {
                 <Header profile={session}></Header>
                 <main>
                     <div className="container">
-                        {!taskLoading && <Task task={task}></Task>}
+                        <Task id={id}></Task>
                     </div>
                 </main>
             </div>
