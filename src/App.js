@@ -12,14 +12,12 @@ export const SessionContext = createContext();
 
 function App() {
     const [session, setSession] = useState(null);
+    const [gettingSession, setGettingSession] = useState(true);
+
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
             if (_event == "SIGNED_IN") {
                 supabase
                     .from("users")
@@ -35,6 +33,8 @@ function App() {
                         }
                     });
             }
+            setSession(session);
+            setGettingSession(false);
         });
         return () => subscription.unsubscribe();
     }, []);
@@ -44,7 +44,9 @@ function App() {
             <Route
                 path="/"
                 element={
-                    <SessionContext.Provider value={session}>
+                    <SessionContext.Provider
+                        value={{ session, gettingSession }}
+                    >
                         <Login></Login>
                     </SessionContext.Provider>
                 }
@@ -52,7 +54,9 @@ function App() {
             <Route
                 path="/home"
                 element={
-                    <SessionContext.Provider value={session}>
+                    <SessionContext.Provider
+                        value={{ session, gettingSession }}
+                    >
                         <Home></Home>
                     </SessionContext.Provider>
                 }
@@ -60,7 +64,9 @@ function App() {
             <Route
                 path="/tasks/create"
                 element={
-                    <SessionContext.Provider value={session}>
+                    <SessionContext.Provider
+                        value={{ session, gettingSession }}
+                    >
                         <CreateTask></CreateTask>
                     </SessionContext.Provider>
                 }

@@ -13,7 +13,7 @@ import Home from "./Home";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
-    const session = useContext(SessionContext);
+    const { session } = useContext(SessionContext);
 
     function googleLogin() {
         supabase.auth.signInWithOAuth({

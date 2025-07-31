@@ -9,7 +9,7 @@ import supabase from "../../supabase";
 import { SessionContext } from "../../App";
 
 function CreateFrom() {
-    const session = useContext(SessionContext);
+    const { session } = useContext(SessionContext);
 
     const [users, setUsers] = useState([]);
     useEffect(() => {
