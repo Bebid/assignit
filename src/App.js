@@ -7,10 +7,12 @@ import TaskView from "./pages/TaskView";
 
 import supabase from "./supabase";
 import { createContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import ForApproval from "./pages/ForApproval";
 export const SessionContext = createContext();
 
 function App() {
+    const navigate = useNavigate();
     const [session, setSession] = useState(null);
     const [gettingSession, setGettingSession] = useState(true);
 
@@ -30,6 +32,10 @@ function App() {
                                 photo: session.user.user_metadata.avatar_url,
                                 name: session.user.user_metadata.name,
                             });
+                        } else {
+                            if (data[0].role == 0) {
+                                navigate("/for-approval");
+                            }
                         }
                     });
             }
@@ -80,6 +86,11 @@ function App() {
                         <TaskView></TaskView>
                     </SessionContext.Provider>
                 }
+            ></Route>
+
+            <Route
+                path="/for-approval"
+                element={<ForApproval></ForApproval>}
             ></Route>
         </Routes>
     );

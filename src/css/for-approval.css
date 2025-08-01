@@ -1,0 +1,21 @@
+#for-approval {
+    height: 100%;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#for-approval .container {
+    align-items: center;
+}
+
+#for-approval h1 {
+    margin-bottom: 24px;
+}
+
+#for-approval img {
+    width: 90px;
+    height: auto;
+}
