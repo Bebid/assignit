@@ -1,0 +1,25 @@
+.checkbox {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.checkbox label {
+    font-weight: normal;
+}
+
+.checkbox > div {
+    border: 2px solid var(--color-grey);
+    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .checkbox > *:not(div) {
+        display: none;
+    }
+}

@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import chevronDown from "../../images/chevron-down.svg";
 import "./Dropdown.css";
 
-function Dropdown({ label, selected, items, onSelect, invalid }) {
+function Dropdown({
+    label,
+    selected,
+    items,
+    onSelect,
+    invalid,
+    className = "",
+}) {
     const [open, setOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(items[selected]);
 
@@ -20,11 +27,11 @@ function Dropdown({ label, selected, items, onSelect, invalid }) {
     }
     return (
         <div
-            className={`dropdown ${invalid ? "invalid" : ""} ${
-                open ? "open" : ""
-            }`}
+            className={`dropdown${invalid ? " invalid" : ""}${
+                open ? " open" : ""
+            } ${className}`}
         >
-            <label>{label}</label>
+            {label && <label>{label}</label>}
 
             <div>
                 <button type="button" onClick={() => toggle()}>

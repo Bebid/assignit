@@ -9,6 +9,7 @@ import supabase from "./supabase";
 import { createContext } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import ForApproval from "./pages/ForApproval";
+import Admin from "./pages/Admin";
 export const SessionContext = createContext();
 
 function App() {
@@ -84,6 +85,18 @@ function App() {
                         value={{ session, gettingSession }}
                     >
                         <TaskView></TaskView>
+                    </SessionContext.Provider>
+                }
+            ></Route>
+
+            {/* Admin */}
+            <Route
+                path="/admin"
+                element={
+                    <SessionContext.Provider
+                        value={{ session, gettingSession, user }}
+                    >
+                        <Admin></Admin>
                     </SessionContext.Provider>
                 }
             ></Route>

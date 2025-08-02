@@ -8,11 +8,12 @@ import supabase from "../supabase";
 import { NavLink } from "react-router-dom";
 
 function Header({
-    profile: {
+    session: {
         user: {
             user_metadata: { avatar_url, name },
         },
     },
+    user: { isAdmin },
 }) {
     const [profileStatus, setProfileStatus] = useState(false);
     const [mobileMenuStatus, setMobileMenuStatus] = useState(false);
@@ -65,14 +66,18 @@ function Header({
                             onClick={() => toggleMobileMenu()}
                         ></img>
                     </figure>
-                    <div
-                        onClick={() => logout()}
-                        className={`header-dropdown ${openClass}`}
-                    >
-                        <p>Logout</p>
+                    <div className={`header-dropdown ${openClass}`}>
+                        {isAdmin && (
+                            <NavLink to="/admin">Administrator</NavLink>
+                        )}
+                        <a onClick={() => logout()}>Logout</a>
                     </div>
                 </section>
-                <section className={`mobile-menu ${mobileMenuOpenClass}`}>
+                <section
+                    className={`mobile-menu ${mobileMenuOpenClass} ${
+                        isAdmin && "is-admin"
+                    }`}
+                >
                     <nav>
                         <ul>
                             <li>
@@ -88,8 +93,13 @@ function Header({
                                     </Button>
                                 </NavLink>
                             </li>
+                            {isAdmin && (
+                                <li>
+                                    <NavLink to="/admin">Administrator</NavLink>
+                                </li>
+                            )}
                             <li onClick={() => logout()}>
-                                <p>Logout</p>
+                                <a>Logout</a>
                             </li>
                         </ul>
                     </nav>

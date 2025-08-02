@@ -1,0 +1,87 @@
+#admin h2 {
+    margin-bottom: 24px;
+}
+#admin .user-list {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+}
+#admin .user-list {
+    padding: 32px;
+    border-radius: 32px;
+    background-color: var(--color-white);
+}
+#admin .user-list > li:first-child {
+    display: none;
+}
+
+#admin .user-list > li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+#admin .dropdown {
+    flex-direction: row;
+}
+
+#admin .dropdown:not(.open) > div {
+    overflow: hidden;
+    border: 0;
+}
+
+#admin .dropdown button {
+    gap: 16px;
+}
+
+#admin .dropdown.open ul {
+    width: max-content;
+}
+
+#admin li > div {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+#admin li > div:first-child img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 36px;
+}
+
+.role-P button {
+    background-color: #deedff;
+    border-color: #deedff;
+}
+
+.role-MT button {
+    background-color: #e0deff;
+    border-color: #e0deff;
+}
+
+.role-T button {
+    background-color: #f7deff;
+    border-color: #f7deff;
+}
+.role-SS button {
+    background-color: var(--color-grey);
+    border-color: var(--color-grey);
+}
+
+@media (min-width: 768px) {
+    #admin .user-list {
+        gap: 8px;
+    }
+    #admin .user-list > li:first-child {
+        display: grid;
+    }
+    #admin .user-list > li {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #admin ul li > * {
+        padding: 8px;
+    }
+}
