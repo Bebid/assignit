@@ -5,14 +5,9 @@ import Input from "../Form/Input";
 import Textarea from "../Form/Textarea";
 import Dropdown from "../Form/Dropdown";
 import supabase from "../../supabase";
+import { statuses } from "../../data";
 
 function Task({ id }) {
-    const statuses = [
-        { id: "O", text: "Open" },
-        { id: "P", text: "Pending" },
-        { id: "C", text: "Closed" },
-    ];
-
     const [task, setTask] = useState({});
     const [taskLoading, setTaskLoading] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(0);

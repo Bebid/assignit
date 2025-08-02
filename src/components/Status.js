@@ -1,13 +1,10 @@
 import React from "react";
 import "./Status.css";
+import { statuses } from "../data";
 
 function Status({ code }) {
-    const statusCodes = {
-        O: "Open",
-        P: "Pending",
-        C: "Closed",
-    };
-    return <p className={`status-${code}`}>{statusCodes[code]}</p>;
+    const statusText = statuses.find((status) => status.id == code).text;
+    return <p className={`status-${code}`}>{statusText}</p>;
 }
 
 export default Status;
