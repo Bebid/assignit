@@ -5,22 +5,17 @@ import { Navigate } from "react-router-dom";
 import { SessionContext } from "../App";
 
 function CreateTask() {
-    const { session, gettingSession } = useContext(SessionContext);
-    return !gettingSession ? (
-        session ? (
-            <div>
-                <Header profile={session}></Header>
-                <main>
-                    <div className="container">
-                        <CreateForm></CreateForm>
-                    </div>
-                </main>
-            </div>
-        ) : (
-            <Navigate to="/" />
-        )
-    ) : (
-        <div>Loading</div>
+    const { session, user } = useContext(SessionContext);
+
+    return (
+        <>
+            <Header session={session} user={user}></Header>
+            <main>
+                <div className="container">
+                    <CreateForm></CreateForm>
+                </div>
+            </main>
+        </>
     );
 }
 

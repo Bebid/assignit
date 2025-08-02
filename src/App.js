@@ -10,38 +10,51 @@ import { createContext } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import ForApproval from "./pages/ForApproval";
 import Admin from "./pages/Admin";
+import AuthNewUser from "./lib/AuthNewUser";
+import AuthRegisteredUser from "./lib/AuthRegisteredUser";
+import AuthAdmin from "./lib/AuthAdmin";
 export const SessionContext = createContext();
 
 function App() {
     const navigate = useNavigate();
     const [session, setSession] = useState(null);
     const [gettingSession, setGettingSession] = useState(true);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (_event == "INITIAL_SESSION") {
+                return;
+            }
+
             if (_event == "SIGNED_IN") {
                 supabase
                     .from("users")
                     .select()
                     .eq("id", session.user.id)
-                    .then(({ data }) => {
+                    .then(async ({ data }) => {
+                        let user = data[0];
                         if (data.length == 0) {
-                            supabase.from("users").insert({
-                                role: 0,
-                                photo: session.user.user_metadata.avatar_url,
-                                name: session.user.user_metadata.name,
-                            });
-                        } else {
-                            if (data[0].role == 0) {
-                                navigate("/for-approval");
-                            }
+                            let { data } = await supabase
+                                .from("users")
+                                .insert({
+                                    role: "0",
+                                    photo: session.user.user_metadata
+                                        .avatar_url,
+                                    name: session.user.user_metadata.name,
+                                })
+                                .select();
+                            user = data[0];
                         }
+                        setUser(user);
+                        setGettingSession(false);
                     });
+            } else {
+                setGettingSession(false);
             }
             setSession(session);
-            setGettingSession(false);
         });
         return () => subscription.unsubscribe();
     }, []);
@@ -62,9 +75,11 @@ function App() {
                 path="/home"
                 element={
                     <SessionContext.Provider
-                        value={{ session, gettingSession }}
+                        value={{ session, gettingSession, user }}
                     >
-                        <Home></Home>
+                        <AuthRegisteredUser>
+                            <Home></Home>
+                        </AuthRegisteredUser>
                     </SessionContext.Provider>
                 }
             ></Route>
@@ -72,9 +87,11 @@ function App() {
                 path="/tasks/create"
                 element={
                     <SessionContext.Provider
-                        value={{ session, gettingSession }}
+                        value={{ session, gettingSession, user }}
                     >
-                        <CreateTask></CreateTask>
+                        <AuthRegisteredUser>
+                            <CreateTask></CreateTask>
+                        </AuthRegisteredUser>
                     </SessionContext.Provider>
                 }
             ></Route>
@@ -82,9 +99,11 @@ function App() {
                 path="/tasks/view/:id"
                 element={
                     <SessionContext.Provider
-                        value={{ session, gettingSession }}
+                        value={{ session, gettingSession, user }}
                     >
-                        <TaskView></TaskView>
+                        <AuthRegisteredUser>
+                            <TaskView></TaskView>
+                        </AuthRegisteredUser>
                     </SessionContext.Provider>
                 }
             ></Route>
@@ -96,14 +115,26 @@ function App() {
                     <SessionContext.Provider
                         value={{ session, gettingSession, user }}
                     >
-                        <Admin></Admin>
+                        <AuthRegisteredUser>
+                            <AuthAdmin>
+                                <Admin></Admin>
+                            </AuthAdmin>
+                        </AuthRegisteredUser>
                     </SessionContext.Provider>
                 }
             ></Route>
 
             <Route
                 path="/for-approval"
-                element={<ForApproval></ForApproval>}
+                element={
+                    <SessionContext.Provider
+                        value={{ session, gettingSession, user }}
+                    >
+                        <AuthNewUser>
+                            <ForApproval></ForApproval>
+                        </AuthNewUser>
+                    </SessionContext.Provider>
+                }
             ></Route>
         </Routes>
     );

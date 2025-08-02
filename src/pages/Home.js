@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom";
 import supabase from "../supabase";
 
 function Home() {
-    const { session, gettingSession } = useContext(SessionContext);
+    const { session, user } = useContext(SessionContext);
     const [tasks, setTasks] = useState([]);
     useEffect(() => {
         supabase
@@ -17,28 +17,23 @@ function Home() {
                 setTasks(data);
             });
     }, []);
-    return !gettingSession ? (
-        session ? (
-            <div>
-                <Header profile={session}></Header>
-                <main>
-                    <div className="container">
-                        <TasksList
-                            headline="Tasks assigned to me"
-                            tasks={tasks}
-                        ></TasksList>
-                        <TasksList
-                            headline="Tasks I created"
-                            tasks={tasks}
-                        ></TasksList>
-                    </div>
-                </main>
-            </div>
-        ) : (
-            <Navigate to="/"></Navigate>
-        )
-    ) : (
-        <div>Loading</div>
+
+    return (
+        <div>
+            <Header session={session} user={user}></Header>
+            <main>
+                <div className="container">
+                    <TasksList
+                        headline="Tasks assigned to me"
+                        tasks={tasks}
+                    ></TasksList>
+                    <TasksList
+                        headline="Tasks I created"
+                        tasks={tasks}
+                    ></TasksList>
+                </div>
+            </main>
+        </div>
     );
 }
 
