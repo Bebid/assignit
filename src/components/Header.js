@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import logo from "../images/AI-Logo.png";
 import "./header.css";
 
@@ -6,15 +6,18 @@ import Button from "./Button";
 
 import supabase from "../supabase";
 import { NavLink } from "react-router-dom";
+import { SessionContext } from "../App";
 
-function Header({
-    session: {
-        user: {
-            user_metadata: { avatar_url, name },
+function Header() {
+    const {
+        session: {
+            user: {
+                user_metadata: { avatar_url, name },
+            },
         },
-    },
-    user: { isAdmin },
-}) {
+        user: { isAdmin },
+    } = useContext(SessionContext);
+
     const [profileStatus, setProfileStatus] = useState(false);
     const [mobileMenuStatus, setMobileMenuStatus] = useState(false);
     const openClass = profileStatus ? "open" : "";

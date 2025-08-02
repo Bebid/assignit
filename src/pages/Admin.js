@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../css/admin.css";
-import { useContext } from "react";
-import { SessionContext } from "../App";
 import Header from "../components/Header";
 import Dropdown from "../components/Form/Dropdown";
 import supabase from "../supabase";
@@ -9,7 +7,6 @@ import { roles } from "../data";
 import Checkbox from "../components/Form/Checkbox";
 
 function Admin() {
-    const { session, user } = useContext(SessionContext);
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -52,7 +49,7 @@ function Admin() {
 
     return (
         <>
-            <Header session={session} user={user}></Header>
+            <Header></Header>
             <main>
                 <div className="container">
                     <section id="admin">
