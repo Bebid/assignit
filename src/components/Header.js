@@ -23,10 +23,6 @@ function Header() {
     const openClass = profileStatus ? "open" : "";
     const mobileMenuOpenClass = mobileMenuStatus ? "open" : "";
 
-    function toggleProfileMenu() {
-        setProfileStatus(!profileStatus);
-    }
-
     function toggleMobileMenu() {
         setMobileMenuStatus(!mobileMenuStatus);
     }
@@ -54,20 +50,16 @@ function Header() {
                             </li>
                         </ul>
                     </nav>
-                    <figure className="profile">
-                        <figcaption>{name}</figcaption>
-                        <img
-                            src={avatar_url}
-                            alt="Profile Picture"
-                            onClick={() => toggleProfileMenu()}
-                        ></img>
-                    </figure>
                     <figure className="profile mobile">
                         <img
                             src={avatar_url}
                             alt="Profile Picture"
                             onClick={() => toggleMobileMenu()}
                         ></img>
+                    </figure>
+                    <figure className="profile">
+                        <figcaption>{name}</figcaption>
+                        <img src={avatar_url} alt="Profile Picture"></img>
                     </figure>
                     <div className={`header-dropdown ${openClass}`}>
                         {isAdmin && (

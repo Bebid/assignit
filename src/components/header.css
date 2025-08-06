@@ -96,6 +96,7 @@ header .container {
 @media (min-width: 768px) {
     header .container {
         gap: 0;
+        padding: 0 32px;
     }
 
     .desktop-menu ul {
@@ -128,7 +129,8 @@ header .container {
         overflow: hidden;
     }
 
-    .header-dropdown.open {
+    .profile:hover + .header-dropdown,
+    .header-dropdown:hover {
         opacity: 100%;
     }
 
@@ -144,6 +146,7 @@ header .container {
 
     .profile {
         display: flex;
+        padding: 24px 0;
     }
 
     .mobile-menu {
