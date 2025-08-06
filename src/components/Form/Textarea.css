@@ -38,3 +38,17 @@ textarea {
 .invalid .textarea-container {
     border-color: red;
 }
+
+.form-textarea .buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.form-textarea p {
+    white-space: pre;
+}
+
+.form-textarea p:hover {
+    background-color: var(--color-grey);
+    cursor: text;
+}

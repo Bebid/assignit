@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./Input.css";
+import Button from "../Button";
 
 const Input = React.forwardRef(
     (
@@ -8,29 +9,60 @@ const Input = React.forwardRef(
             label,
             placeholder = `Enter ${id} here`,
             type = "text",
-            display = false,
+            isText = false,
             value,
             invalid,
+            allowEdit,
+            onSave,
         },
         ref
     ) => {
+        const [inputValue, setInputValue] = useState(value);
+        const [editMode, setEditMode] = useState(!isText);
+        const enableEditMode = (value = true) => {
+            allowEdit && setEditMode(value);
+        };
+
+        const saveChanges = () => {
+            setEditMode(false);
+            onSave && onSave();
+        };
         return (
-            <p className={`form-input ${invalid ? "invalid" : ""}`}>
+            <div className={`form-input ${invalid ? "invalid" : ""}`}>
                 <label htmlFor={id}>{label}</label>
-                <input
-                    ref={ref}
-                    className={`${display ? "display" : ""}`}
-                    type={type}
-                    id={id}
-                    name={id}
-                    placeholder={placeholder}
-                    value={value}
-                    disabled={display}
-                ></input>
+                {editMode ? (
+                    <input
+                        ref={ref}
+                        type={type}
+                        id={id}
+                        name={id}
+                        placeholder={placeholder}
+                        value={inputValue}
+                        onChange={(e) => {
+                            setInputValue(e.target.value);
+                        }}
+                    ></input>
+                ) : (
+                    <p onClick={() => enableEditMode()}>{inputValue}</p>
+                )}
                 {invalid && (
                     <span class="error-message">Field is required</span>
                 )}
-            </p>
+                {editMode && (
+                    <div className="buttons">
+                        <Button
+                            size="small"
+                            type="secondary"
+                            onClick={() => enableEditMode(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button size="small" onClick={() => saveChanges()}>
+                            Save
+                        </Button>
+                    </div>
+                )}
+            </div>
         );
     }
 );

@@ -23,3 +23,13 @@ input.display {
 .invalid input {
     border-color: red;
 }
+
+.form-input .buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.form-input p:hover {
+    background-color: var(--color-grey);
+    cursor: text;
+}
