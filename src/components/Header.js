@@ -73,7 +73,9 @@ function Header() {
                         {isAdmin && (
                             <NavLink to="/admin">Administrator</NavLink>
                         )}
-                        <a onClick={() => logout()}>Logout</a>
+                        <a href="#" onClick={() => logout()}>
+                            Logout
+                        </a>
                     </div>
                 </section>
                 <section
@@ -101,8 +103,10 @@ function Header() {
                                     <NavLink to="/admin">Administrator</NavLink>
                                 </li>
                             )}
-                            <li onClick={() => logout()}>
-                                <a>Logout</a>
+                            <li>
+                                <a href="#" onClick={() => logout()}>
+                                    Logout
+                                </a>
                             </li>
                         </ul>
                     </nav>
