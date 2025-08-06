@@ -4,7 +4,9 @@
     --bg-yellow: #fffce3;
     --bg-green: #e5ffde;
     --color-white: white;
+    --color-white-hover: #888;
     --color-black: black;
+    --color-black-hover: #222;
 }
 * {
     padding: 0;
@@ -30,6 +32,10 @@ h1 {
 
 ul {
     list-style: none;
+}
+
+button {
+    cursor: pointer;
 }
 
 a {

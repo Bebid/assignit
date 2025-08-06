@@ -8,6 +8,12 @@
     background-color: var(--color-black);
     font-size: 16px;
     color: var(--color-white);
+    transition: all ease-in-out 0.3s;
+}
+
+.button:hover {
+    border-color: var(--color-black-hover);
+    background-color: var(--color-black-hover);
 }
 
 .button.small {
@@ -19,7 +25,18 @@
     color: var(--color-white);
 }
 
+.button.inverted:hover {
+    background-color: var(--color-black);
+    border-color: var(--color-white-hover);
+    color: var(--color-white-hover);
+}
+
 .button.secondary {
     background-color: var(--color-white);
     color: var(--color-black);
+}
+.button.secondary:hover {
+    background-color: var(--color-white);
+    border-color: var(--color-white-hover);
+    color: var(--color-white-hover);
 }

@@ -19,6 +19,23 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    padding: 16px;
+    border: 2px solid var(--color-white);
+}
+
+#admin .user-list > li:hover {
+    border-color: var(--color-grey);
+}
+
+#admin .user-list > li > div {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+}
+
+#admin .user-list > li > div:not(:first-child) div {
+    grid-column: 2;
 }
 
 #admin .dropdown {
@@ -78,7 +95,16 @@
         display: grid;
     }
     #admin .user-list > li {
+        padding: 0;
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    #admin .user-list > li > div {
+        display: flex;
+    }
+
+    #admin .user-list > li > div:not(:first-child) div {
+        grid-column: 1;
     }
 
     #admin ul li > * {

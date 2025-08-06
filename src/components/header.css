@@ -39,12 +39,13 @@ header .container {
     margin: 12px 0;
 }
 
-.mobile-menu ul li > p {
-    cursor: pointer;
-}
-
 .mobile-menu a {
     color: var(--color-white);
+    transition: color ease-in-out 0.3s;
+}
+
+.mobile-menu a:hover {
+    color: var(--color-white-hover);
 }
 
 .desktop-menu {
@@ -104,6 +105,11 @@ header .container {
     .desktop-menu a {
         padding: 8px 16px;
         color: var(--color-white);
+        transition: color ease-in-out 0.3s;
+    }
+
+    .desktop-menu :not(.header-dropdown) a:hover {
+        color: var(--color-white-hover);
     }
 
     .header-dropdown {
@@ -119,6 +125,7 @@ header .container {
         right: 32px;
         transition: opacity ease-in-out 0.3s;
         cursor: pointer;
+        overflow: hidden;
     }
 
     .header-dropdown.open {
@@ -128,6 +135,11 @@ header .container {
     .header-dropdown a {
         color: var(--color-black);
         padding: 8px 16px;
+        transition: background-color ease-in-out 0.3s;
+    }
+
+    .header-dropdown a:hover {
+        background-color: var(--color-grey);
     }
 
     .profile {

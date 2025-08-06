@@ -8,3 +8,11 @@
     padding: 16px;
     border-radius: 16px;
 }
+
+.task-item a:hover {
+    background-color: var(--color-black);
+}
+
+.task-item a:hover p:not(:last-child) {
+    color: white;
+}
