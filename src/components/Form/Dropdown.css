@@ -8,7 +8,7 @@
 }
 .dropdown button {
     border-radius: 32px;
-    border: 1px solid var(--color-grey);
+    border: 2px solid var(--color-grey);
     transition: borde-radius ease-in-out 0.3s;
 
     display: flex;
@@ -33,7 +33,7 @@
     background-color: var(--color-white);
     border-radius: 24px;
     margin-top: 8px;
-    border: 1px solid var(--color-grey);
+    border: 2px solid var(--color-grey);
     z-index: 1;
 }
 .dropdown ul li {

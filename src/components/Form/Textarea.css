@@ -5,7 +5,7 @@
 }
 
 .textarea-container {
-    border: 1px solid var(--color-grey);
+    border: 2px solid var(--color-grey);
     border-radius: 24px;
     overflow: hidden;
     height: 200px;
