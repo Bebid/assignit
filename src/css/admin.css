@@ -47,10 +47,6 @@
     border: 0;
 }
 
-#admin .dropdown button {
-    gap: 16px;
-}
-
 #admin .dropdown.open ul {
     width: max-content;
 }
