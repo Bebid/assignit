@@ -32,7 +32,7 @@ function TaskView() {
                 <div className="container">
                     {!taskLoading &&
                         (user.id != task.created_by.id &&
-                        user.id != task.assigned_to ? (
+                        user.id != task.assigned_to.id ? (
                             "Permission Denied"
                         ) : (
                             <Task task={task}></Task>
