@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import chevronDown from "../../images/chevron-down.svg";
 import "./Dropdown.css";
 
@@ -12,10 +12,6 @@ function Dropdown({
 }) {
     const [open, setOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(items[selected]);
-
-    useEffect(() => {
-        setSelectedItem(items[selected]);
-    }, [items]);
 
     function toggle() {
         setOpen(!open);
