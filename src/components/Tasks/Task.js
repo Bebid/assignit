@@ -102,6 +102,7 @@ function Task({ id }) {
                     value={task.title}
                     onSave={() => updateTitle()}
                     ref={titleInputRef}
+                    independent={true}
                 ></Input>
                 <Dropdown
                     label="Status"
@@ -130,6 +131,7 @@ function Task({ id }) {
                     allowEdit={true}
                     onSave={() => updateDescription()}
                     ref={descInputRef}
+                    independent={true}
                 >
                     {task.description}
                 </Textarea>

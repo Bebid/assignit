@@ -13,6 +13,7 @@ const Textarea = React.forwardRef(
             invalid,
             allowEdit,
             onSave,
+            independent = false,
         },
         ref
     ) => {
@@ -47,7 +48,7 @@ const Textarea = React.forwardRef(
                     <p onClick={() => enableEditMode()}>{value}</p>
                 )}
                 {invalid && <p class="error-message">Field is required</p>}
-                {editMode && (
+                {editMode && independent && (
                     <div className="buttons">
                         <Button
                             size="small"

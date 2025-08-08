@@ -14,6 +14,7 @@ const Input = React.forwardRef(
             invalid,
             allowEdit,
             onSave,
+            independent = false,
         },
         ref
     ) => {
@@ -48,7 +49,7 @@ const Input = React.forwardRef(
                 {invalid && (
                     <span class="error-message">Field is required</span>
                 )}
-                {editMode && (
+                {editMode && independent && (
                     <div className="buttons">
                         <Button
                             size="small"
