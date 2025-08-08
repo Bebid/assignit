@@ -25,6 +25,11 @@ function Dropdown({
         setSelectedItem(items[index]);
         onSelect && onSelect(items[index].id);
     }
+
+    if (items.length == 0) {
+        return "Loading";
+    }
+
     return (
         <div
             className={`dropdown${invalid ? " invalid" : ""}${
@@ -39,7 +44,7 @@ function Dropdown({
                         ? items.find((item) => {
                               return item.id == selectedItem.id;
                           }).text
-                        : "Select an item"}
+                        : items[0].text}
                     <img src={chevronDown} />
                 </button>
                 <ul>
