@@ -25,20 +25,18 @@ function TaskView() {
             });
     }, []);
 
-    if (
-        !taskLoading &&
-        user.id != task.created_by.id &&
-        user.id != task.assigned_to
-    ) {
-        return "Permission denied";
-    }
-
     return (
         <div>
             <Header></Header>
             <main>
                 <div className="container">
-                    {!taskLoading && <Task task={task}></Task>}
+                    {!taskLoading &&
+                        (user.id != task.created_by.id &&
+                        user.id != task.assigned_to ? (
+                            "Permission Denied"
+                        ) : (
+                            <Task task={task}></Task>
+                        ))}
                 </div>
             </main>
         </div>
