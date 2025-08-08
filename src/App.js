@@ -7,7 +7,7 @@ import TaskView from "./pages/TaskView";
 
 import supabase from "./supabase";
 import { createContext } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ForApproval from "./pages/ForApproval";
 import Admin from "./pages/Admin";
 import AuthNewUser from "./lib/AuthNewUser";
@@ -16,7 +16,6 @@ import AuthAdmin from "./lib/AuthAdmin";
 export const SessionContext = createContext();
 
 function App() {
-    const navigate = useNavigate();
     const [session, setSession] = useState(null);
     const [gettingSession, setGettingSession] = useState(true);
     const [user, setUser] = useState(null);
