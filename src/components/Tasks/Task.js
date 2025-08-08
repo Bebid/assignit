@@ -6,12 +6,11 @@ import Textarea from "../Form/Textarea";
 import Dropdown from "../Form/Dropdown";
 import supabase from "../../supabase";
 import { statuses } from "../../data";
+import Button from "../Button";
+import { useNavigate } from "react-router-dom";
 
-function Task({ id }) {
-    const [task, setTask] = useState({});
-    const [taskLoading, setTaskLoading] = useState(true);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
+function Task({ task }) {
+    const [selectedIndex, setSelectedIndex] = useState(task.status);
     const [users, setUsers] = useState([]);
 
     const changeStatus = (status) => {
@@ -20,27 +19,13 @@ function Task({ id }) {
             .update({
                 status: status,
             })
-            .eq("id", id)
+            .eq("id", task.id)
             .then((result) => {
                 console.log(result);
             });
     };
 
     useEffect(() => {
-        supabase
-            .from("tasks")
-            .select(
-                "*, assigned_to:users!tasks_assigned_to_fkey(id, name), created_by:users!tasks_created_by_fkey(id, name)"
-            )
-            .eq("id", id)
-            .then(({ data }) => {
-                setTask(data[0]);
-                setTaskLoading(false);
-                setSelectedIndex(
-                    statuses.findIndex((stat) => stat.id == data[0].status)
-                );
-            });
-
         supabase
             .from("users")
             .select()
@@ -58,7 +43,7 @@ function Task({ id }) {
             .update({
                 assigned_to: userId,
             })
-            .eq("id", id)
+            .eq("id", task.id)
             .then((result) => {
                 console.log(result);
             });
@@ -72,7 +57,7 @@ function Task({ id }) {
             .update({
                 description: descInputRef.current.value,
             })
-            .eq("id", id)
+            .eq("id", task.id)
             .then((result) => {
                 console.log(result);
             });
@@ -85,58 +70,77 @@ function Task({ id }) {
             .update({
                 title: titleInputRef.current.value,
             })
-            .eq("id", id)
+            .eq("id", task.id)
             .then((result) => {
                 console.log(result);
             });
     };
 
+    const navigate = useNavigate();
+    const deleteTask = () => {
+        supabase
+            .from("tasks")
+            .delete()
+            .eq("id", task.id)
+            .then((result) => {
+                navigate("/home");
+            });
+    };
+
     return (
-        !taskLoading && (
-            <article className="task">
-                <Input
-                    id="Title"
-                    label="Title"
-                    allowEdit={true}
-                    isText={true}
-                    value={task.title}
-                    onSave={() => updateTitle()}
-                    ref={titleInputRef}
-                    independent={true}
-                ></Input>
-                <Dropdown
-                    label="Status"
-                    selected={selectedIndex}
-                    items={statuses}
-                    onSelect={changeStatus}
-                ></Dropdown>
-                <Dropdown
-                    label="Assignee"
-                    items={users}
-                    selected={users.findIndex(
-                        (user) => user.id == task.assigned_to.id
-                    )}
-                    onSelect={setAssigneeOnDb}
-                ></Dropdown>
-                <Input
-                    id="creator"
-                    label="Creator"
-                    isText={true}
-                    value={task.created_by.name}
-                ></Input>
-                <Textarea
-                    id="description"
-                    label="Description"
-                    isText={true}
-                    allowEdit={true}
-                    onSave={() => updateDescription()}
-                    ref={descInputRef}
-                    independent={true}
+        <article className="task">
+            <Input
+                id="Title"
+                label="Title"
+                allowEdit={true}
+                isText={true}
+                value={task.title}
+                onSave={() => updateTitle()}
+                ref={titleInputRef}
+                independent={true}
+            ></Input>
+            <Dropdown
+                label="Status"
+                selected={selectedIndex}
+                items={statuses}
+                onSelect={changeStatus}
+            ></Dropdown>
+            <Dropdown
+                label="Assignee"
+                items={users}
+                selected={users.findIndex(
+                    (user) => user.id == task.assigned_to.id
+                )}
+                onSelect={setAssigneeOnDb}
+            ></Dropdown>
+            <Input
+                id="creator"
+                label="Creator"
+                isText={true}
+                value={task.created_by.name}
+            ></Input>
+            <Textarea
+                id="description"
+                label="Description"
+                isText={true}
+                allowEdit={true}
+                onSave={() => updateDescription()}
+                ref={descInputRef}
+                independent={true}
+            >
+                {task.description}
+            </Textarea>
+
+            <div className="task-actions">
+                <Button
+                    onClick={() => {
+                        deleteTask();
+                    }}
                 >
-                    {task.description}
-                </Textarea>
-            </article>
-        )
+                    Delete
+                </Button>
+            </div>
+        </article>
     );
 }
 

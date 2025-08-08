@@ -7,3 +7,8 @@
     flex-direction: column;
     gap: 24px;
 }
+
+.task-actions {
+    display: flex;
+    justify-content: end;
+}
