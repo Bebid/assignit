@@ -1,6 +1,40 @@
-.tasks-list-header {
-    margin-bottom: 24px;
+.tasks {
+    background: white;
+    border-radius: 32px;
+    padding: 32px;
 }
+.tasks > section {
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity ease-in-out 0.3s;
+}
+
+.tasks.open section {
+    padding-top: 24px;
+    opacity: 100%;
+    visibility: visible;
+    height: 100%;
+}
+
+.tasks > button {
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+.tasks > button img {
+    transition: transform ease-in-out 0.3s;
+}
+.tasks.open > button img {
+    transform: rotate(180deg);
+}
+
+.tasks-list-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .tasks-list {
     display: flex;
     flex-direction: column;

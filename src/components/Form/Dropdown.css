@@ -28,6 +28,10 @@
     width: 100%;
 }
 
+.dropdown.sm button {
+    padding: 8px 16px;
+}
+
 .dropdown button img {
     height: 8px;
     transition: transform ease-in-out 0.3s;
@@ -42,6 +46,9 @@
     margin-top: 4px;
     border: 2px solid var(--color-grey);
     z-index: 1;
+}
+.dropdown.sm ul li {
+    padding: 8px 16px;
 }
 .dropdown ul li {
     padding: 12px 16px;

@@ -63,6 +63,10 @@ label {
     gap: 40px;
 }
 
+.container.gap-sm {
+    gap: 24px;
+}
+
 .font-cursive {
     font-family: "Beth Ellen", cursive;
 }

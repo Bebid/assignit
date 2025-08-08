@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import chevron from "../../images/chevron-down.svg";
 import "./TasksList.css";
 import TaskItem from "./TaskItem";
 import Dropdown from "../Form/Dropdown";
@@ -7,6 +8,8 @@ import { statuses } from "../../data";
 function TasksList({ tasks, headline }) {
     const [filteredTasks, setFilteredTasks] = useState(tasks);
     const [selectedStatus, setSelectedStatus] = useState(tasks.status);
+
+    const [open, setOpen] = useState(false);
 
     const filterList = (status) => {
         if (status == "A") {
@@ -18,22 +21,37 @@ function TasksList({ tasks, headline }) {
     };
 
     return (
-        <article>
-            <h2 className="tasks-list-header">{headline}</h2>
-            <section className="tasks-filter">
-                <Dropdown
-                    label="Status:"
-                    items={[{ id: "A", text: "All" }, ...statuses]}
-                    selected={selectedStatus}
-                    className="row"
-                    onSelect={filterList}
-                ></Dropdown>
-            </section>
-            <ul className="tasks-list">
-                {filteredTasks.map((task) => (
-                    <TaskItem key={task.id} task={task}></TaskItem>
-                ))}
-            </ul>
+        <article className={`tasks ${open && "open"}`}>
+            <button
+                className="tasks-list-button"
+                onClick={() => setOpen(!open)}
+            >
+                <h2 className="tasks-list-header">
+                    {headline} ({filteredTasks.length}){" "}
+                    <img src={chevron} alt="Chevron Down" />
+                </h2>
+            </button>
+            {filteredTasks.length == 0 ? (
+                <section>No tasks found</section>
+            ) : (
+                <section>
+                    <div className="tasks-filter">
+                        <Dropdown
+                            label="Status:"
+                            items={[{ id: "A", text: "All" }, ...statuses]}
+                            selected={selectedStatus}
+                            className="row sm"
+                            onSelect={filterList}
+                        ></Dropdown>
+                    </div>
+
+                    <ul className="tasks-list">
+                        {filteredTasks.map((task) => (
+                            <TaskItem key={task.id} task={task}></TaskItem>
+                        ))}
+                    </ul>
+                </section>
+            )}
         </article>
     );
 }
