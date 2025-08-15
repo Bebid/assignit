@@ -10,7 +10,7 @@ const Input = React.forwardRef(
             placeholder = `Enter ${id} here`,
             type = "text",
             isText = false,
-            value,
+            value = "",
             invalid,
             allowEdit,
             onSave,
