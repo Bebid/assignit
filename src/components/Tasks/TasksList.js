@@ -30,27 +30,27 @@ function TasksList({ tasks, headline }) {
                     <img src={chevron} alt="Chevron Down" />
                 </h2>
             </button>
-            {filteredTasks.length == 0 ? (
-                <section>No tasks found</section>
-            ) : (
-                <section>
-                    <div className="tasks-filter">
-                        <Dropdown
-                            label="Status:"
-                            items={[{ id: "A", text: "All" }, ...statuses]}
-                            selected={selectedStatus}
-                            className="row sm"
-                            onSelect={filterList}
-                        ></Dropdown>
-                    </div>
 
+            <section>
+                <div className="tasks-filter">
+                    <Dropdown
+                        label="Status:"
+                        items={[{ id: "A", text: "All" }, ...statuses]}
+                        selected={selectedStatus}
+                        className="row sm"
+                        onSelect={filterList}
+                    ></Dropdown>
+                </div>
+                {filteredTasks.length == 0 ? (
+                    <section>No tasks found</section>
+                ) : (
                     <ul className="tasks-list">
                         {filteredTasks.map((task) => (
                             <TaskItem key={task.id} task={task}></TaskItem>
                         ))}
                     </ul>
-                </section>
-            )}
+                )}
+            </section>
         </article>
     );
 }
