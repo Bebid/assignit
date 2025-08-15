@@ -11,15 +11,15 @@ function Dropdown({
     className = "",
 }) {
     const [open, setOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(items[selected]);
+    const [selectedId, setSelectedId] = useState(selected);
 
     function toggle() {
         setOpen(!open);
     }
-    function selectItem(index) {
+    function selectItem(id) {
         setOpen(false);
-        setSelectedItem(items[index]);
-        onSelect && onSelect(items[index].id);
+        setSelectedId(id);
+        onSelect && onSelect(id);
     }
 
     if (items.length == 0) {
@@ -36,16 +36,16 @@ function Dropdown({
 
             <div>
                 <button type="button" onClick={() => toggle()}>
-                    {selectedItem
+                    {selectedId
                         ? items.find((item) => {
-                              return item.id == selectedItem.id;
+                              return item.id == selectedId;
                           }).text
-                        : items[0].text}
+                        : `Select ${label}`}
                     <img src={chevronDown} />
                 </button>
                 <ul>
-                    {items.map((item, index) => (
-                        <li key={item.id} onClick={() => selectItem(index)}>
+                    {items.map((item) => (
+                        <li key={item.id} onClick={() => selectItem(item.id)}>
                             {item.text}
                         </li>
                     ))}

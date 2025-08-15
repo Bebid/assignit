@@ -158,9 +158,7 @@ function Task({ task }) {
             ></Input>
             <Dropdown
                 label="Status"
-                selected={statuses.findIndex(
-                    (status) => status.id == task.status
-                )}
+                selected={task.status}
                 items={statuses}
                 onSelect={changeStatus}
             ></Dropdown>
@@ -168,9 +166,7 @@ function Task({ task }) {
                 <Dropdown
                     label="Assignee"
                     items={users}
-                    selected={users.findIndex(
-                        (user) => user.id == task.assigned_to.id
-                    )}
+                    selected={task.assigned_to.id}
                     onSelect={setAssigneeOnDb}
                 ></Dropdown>
             )}

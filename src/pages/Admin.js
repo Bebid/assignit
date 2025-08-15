@@ -69,9 +69,7 @@ function Admin() {
                                     <div>
                                         <Dropdown
                                             className={`role-${user.role}`}
-                                            selected={roles.findIndex(
-                                                (role) => role.id == user.role
-                                            )}
+                                            selected={user.role}
                                             items={roles}
                                             onSelect={(id) =>
                                                 changeUserRole(key, id)
