@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Task.css";
+
+import { statuses } from "../../data";
 
 import Input from "../Form/Input";
 import Textarea from "../Form/Textarea";
 import Dropdown from "../Form/Dropdown";
 import supabase from "../../supabase";
-import { statuses } from "../../data";
 import Button from "../Button";
-import { useNavigate } from "react-router-dom";
+import FileUpload from "../Form/FileUpload";
 
 function Task({ task }) {
-    const [selectedIndex, setSelectedIndex] = useState(task.status);
     const [users, setUsers] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [gettingFiles, setGettingFiles] = useState(true);
+    const [gettingUsers, setGettingUsers] = useState(true);
+    const [blobs, setBlobs] = useState([]);
 
     const changeStatus = (status) => {
         supabase
@@ -34,6 +40,34 @@ function Task({ task }) {
                     return { id: user.id, text: user.name };
                 });
                 setUsers(users);
+                setGettingUsers(false);
+            });
+
+        supabase.storage
+            .from("attachments")
+            .list(task.id, {
+                limit: 100,
+                offset: 0,
+                sortBy: { column: "name", order: "asc" },
+            })
+            .then(({ data: fetchedFiles, error }) => {
+                setFiles(fetchedFiles);
+
+                fetchedFiles.map((file, key) => {
+                    setTimeout(async () => {
+                        const { data, error } = await supabase.storage
+                            .from("attachments")
+                            .download(`${task.id}/${file.name}`);
+
+                        const blobUrl = URL.createObjectURL(data);
+                        setBlobs((blobs) => [
+                            ...blobs,
+                            { id: file.id, downloadLink: blobUrl },
+                        ]);
+                    }, 0);
+                });
+
+                setGettingFiles(false);
             });
     }, []);
 
@@ -87,6 +121,29 @@ function Task({ task }) {
             });
     };
 
+    const removeFileFromDB = (fileName) => {
+        supabase.storage.from("attachments").remove([`${task.id}/${fileName}`]);
+    };
+
+    const uploadFile = (inputRef) => {
+        const uploadedFiles = inputRef.current.files;
+
+        Array.from(uploadedFiles).forEach((attachment) => {
+            setTimeout(async () => {
+                const { data, error } = await supabase.storage
+                    .from("attachments")
+                    .upload(`${task.id}/${attachment.name}`, attachment, {
+                        cacheControl: "3600",
+                        upsert: false,
+                    });
+
+                if (!error) {
+                    setFiles((files) => [...files, attachment]);
+                }
+            });
+        });
+    };
+
     return (
         <article className="task">
             <Input
@@ -101,18 +158,22 @@ function Task({ task }) {
             ></Input>
             <Dropdown
                 label="Status"
-                selected={selectedIndex}
+                selected={statuses.findIndex(
+                    (status) => status.id == task.status
+                )}
                 items={statuses}
                 onSelect={changeStatus}
             ></Dropdown>
-            <Dropdown
-                label="Assignee"
-                items={users}
-                selected={users.findIndex(
-                    (user) => user.id == task.assigned_to.id
-                )}
-                onSelect={setAssigneeOnDb}
-            ></Dropdown>
+            {!gettingUsers && (
+                <Dropdown
+                    label="Assignee"
+                    items={users}
+                    selected={users.findIndex(
+                        (user) => user.id == task.assigned_to.id
+                    )}
+                    onSelect={setAssigneeOnDb}
+                ></Dropdown>
+            )}
             <Input
                 id="creator"
                 label="Creator"
@@ -130,6 +191,21 @@ function Task({ task }) {
             >
                 {task.description}
             </Textarea>
+
+            {!gettingFiles && (
+                <div>
+                    <label>Attachments</label>
+
+                    <FileUpload
+                        multiple
+                        blobs={blobs}
+                        uploadedFiles={files}
+                        setUploadedFiles={setFiles}
+                        removeFileFromDB={removeFileFromDB}
+                        uploadFile={uploadFile}
+                    ></FileUpload>
+                </div>
+            )}
 
             <div className="task-actions">
                 <Button

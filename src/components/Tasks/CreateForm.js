@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./CreateForm.css";
 
+import { SessionContext } from "../../App";
 import Textarea from "../Form/Textarea";
 import Dropdown from "../Form/Dropdown";
 import Input from "../Form/Input";
 import Button from "../Button";
 import supabase from "../../supabase";
-import { SessionContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+import FileUpload from "../Form/FileUpload";
 
 function CreateFrom() {
     const { session } = useContext(SessionContext);
@@ -32,6 +34,7 @@ function CreateFrom() {
     const [titleInvalid, setTitleInvalid] = useState(false);
     const descInputRef = useRef(null);
     const [descInvalid, setDescInvalid] = useState(false);
+    const [files, setFiles] = useState([]);
 
     const navigate = useNavigate();
 
@@ -68,22 +71,36 @@ function CreateFrom() {
             return;
         }
 
-        supabase
-            .from("tasks")
-            .insert({
-                assigned_to: assignee,
-                title: titleInputRef.current.value,
-                description: descInputRef.current.value,
-                status: "O",
-            })
-            .select("id")
-            .then(({ data }) => {
-                navigate(`/tasks/view/${data[0].id}`);
-            });
+        setTimeout(async () => {
+            const { data: tasks, error } = await supabase
+                .from("tasks")
+                .insert({
+                    assigned_to: assignee,
+                    title: titleInputRef.current.value,
+                    description: descInputRef.current.value,
+                    status: "O",
+                })
+                .select("id");
+
+            for (let i = 0; i < files.length; i++) {
+                const { data, error } = await supabase.storage
+                    .from("attachments")
+                    .upload(`${tasks[0].id}/${files[i].name}`, files[i], {
+                        cacheControl: "3600",
+                        upsert: false,
+                    });
+            }
+            navigate(`/tasks/view/${tasks[0].id}`);
+        }, 0);
     };
 
     const back = () => {
         navigate(-1);
+    };
+
+    const uploadFile = (inputRef) => {
+        const uploadedFiles = inputRef.current.files;
+        setFiles([...files, ...uploadedFiles]);
     };
 
     return (
@@ -107,6 +124,12 @@ function CreateFrom() {
                 ref={descInputRef}
                 invalid={descInvalid}
             ></Textarea>
+            <FileUpload
+                multiple={true}
+                uploadedFiles={files}
+                setUploadedFiles={setFiles}
+                uploadFile={uploadFile}
+            ></FileUpload>
             <div className="form-footer">
                 <Button
                     type="secondary"
