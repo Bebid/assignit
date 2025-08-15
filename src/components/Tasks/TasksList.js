@@ -7,8 +7,7 @@ import { statuses } from "../../data";
 
 function TasksList({ tasks, headline }) {
     const [filteredTasks, setFilteredTasks] = useState(tasks);
-    const [selectedStatus, setSelectedStatus] = useState(tasks.status);
-
+    const [selectedStatus, setSelectedStatus] = useState("A");
     const [open, setOpen] = useState(false);
 
     const filterList = (status) => {
