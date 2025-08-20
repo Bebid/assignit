@@ -23,7 +23,8 @@ function FileUpload({
         filesCopy.splice(key, 1);
         setUploadedFiles(filesCopy);
 
-        removeFileFromDB && removeFileFromDB(fileName);
+        inputRef.current.value = "";
+        removeFileFromDB && removeFileFromDB([fileName]);
     };
 
     return (
