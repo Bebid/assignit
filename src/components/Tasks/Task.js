@@ -172,33 +172,37 @@ function Task({ task }) {
             display: true,
             message: "Do you really want to delete this item?",
             actionText: "Delete",
-            action: () => {
-                supabase
-                    .from("tasks")
-                    .delete()
-                    .eq("id", task.id)
-                    .then((result) => {
-                        setConfirm((confirm) => {
-                            return {
-                                ...confirm,
-                                display: false,
-                            };
-                        });
-                        const timeout = setTimeout(closeAlertAndRedirect, 5000);
-                        setAlert({
-                            ...alert,
-                            display: true,
-                            timeout: timeout,
-                            message: `Successfully deleted a task!`,
-                            onClose: closeAlertAndRedirect,
-                        });
-                    });
-            },
+            action: deleteTaskFromDB,
         });
     };
 
-    const removeFileFromDB = (fileName) => {
-        supabase.storage.from("attachments").remove([`${task.id}/${fileName}`]);
+    const deleteTaskFromDB = () => {
+        files.length > 0 && removeFileFromDB(files.map((file) => file.name));
+        supabase
+            .from("tasks")
+            .delete()
+            .eq("id", task.id)
+            .then((result) => {
+                setConfirm((confirm) => {
+                    return {
+                        ...confirm,
+                        display: false,
+                    };
+                });
+                const timeout = setTimeout(closeAlertAndRedirect, 5000);
+                setAlert({
+                    ...alert,
+                    display: true,
+                    timeout: timeout,
+                    message: `Successfully deleted a task!`,
+                    onClose: closeAlertAndRedirect,
+                });
+            });
+    };
+
+    const removeFileFromDB = (fileNames) => {
+        const filePaths = fileNames.map((name) => `${task.id}/${name}`);
+        supabase.storage.from("attachments").remove(filePaths);
     };
 
     const uploadFile = (inputRef) => {
