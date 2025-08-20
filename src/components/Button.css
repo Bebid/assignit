@@ -53,3 +53,10 @@
 .button > svg {
     height: 20px;
 }
+
+.button.icon {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: var(--color-white-hover);
+}

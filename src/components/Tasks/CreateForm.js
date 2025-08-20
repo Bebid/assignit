@@ -103,6 +103,14 @@ function CreateFrom() {
         setFiles([...files, ...uploadedFiles]);
     };
 
+    const removeFile = (inputRef, key) => {
+        const filesCopy = [...files];
+        filesCopy.splice(key, 1);
+        setFiles(filesCopy);
+
+        inputRef.current.value = "";
+    };
+
     return (
         <form className="create-form" onSubmit={formSubmitted}>
             <h2>Create Form</h2>
@@ -127,8 +135,8 @@ function CreateFrom() {
             <FileUpload
                 multiple={true}
                 uploadedFiles={files}
-                setUploadedFiles={setFiles}
                 uploadFile={uploadFile}
+                removeFile={removeFile}
             ></FileUpload>
             <div className="form-footer">
                 <Button

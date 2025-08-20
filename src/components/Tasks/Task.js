@@ -39,10 +39,12 @@ function Task({ task }) {
         setAlert((prev) => {
             return { ...prev, display: false };
         });
+
+        clearTimeout(alert.timeout);
     };
 
-    const showAlert = (message, type = "success") => {
-        const timeout = setTimeout(closeAlert, 5000);
+    const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
+        const timeout = setTimeout(timeoutFn, 5000);
         setAlert({
             display: true,
             message: message,
@@ -52,12 +54,17 @@ function Task({ task }) {
         });
     };
 
-    const changeStatus = (status) => {
-        setAlert({
-            ...alert,
-            display: false,
+    const closeConfirm = () => {
+        setConfirm((confirm) => {
+            return {
+                ...confirm,
+                display: false,
+            };
         });
-        clearTimeout(alert.timeout);
+    };
+
+    const changeStatus = (status) => {
+        closeAlert();
         supabase
             .from("tasks")
             .update({
@@ -110,11 +117,7 @@ function Task({ task }) {
     }, []);
 
     const setAssigneeOnDb = (userId) => {
-        setAlert({
-            ...alert,
-            display: false,
-        });
-        clearTimeout(alert.timeout);
+        closeAlert();
         supabase
             .from("tasks")
             .update({
@@ -165,11 +168,7 @@ function Task({ task }) {
     };
     const navigate = useNavigate();
     const deleteTask = () => {
-        setAlert({
-            ...alert,
-            display: false,
-        });
-        clearTimeout(alert.timeout);
+        closeAlert();
         setConfirm({
             display: true,
             message: "Do you really want to delete this item?",
@@ -179,33 +178,56 @@ function Task({ task }) {
     };
 
     const deleteTaskFromDB = () => {
-        files.length > 0 && removeFileFromDB(files.map((file) => file.name));
+        files.length > 0 && removeFiles(files.map((file) => file.name));
         supabase
             .from("tasks")
             .delete()
             .eq("id", task.id)
             .then((result) => {
-                setConfirm((confirm) => {
-                    return {
-                        ...confirm,
-                        display: false,
-                    };
-                });
-                showAlert("Successfully deleted a task!");
+                closeConfirm();
+                showAlert(
+                    "Successfully deleted a task!",
+                    "success",
+                    closeAlertAndRedirect
+                );
             });
     };
 
-    const removeFileFromDB = (fileNames) => {
+    const removeFile = (inputRef, key, fileNames) => {
+        closeAlert();
+        setConfirm({
+            display: true,
+            message: "Do you really want to delete this file?",
+            actionText: "Delete",
+            action: () => removeFileFromDB(inputRef, key, fileNames),
+        });
+    };
+
+    const removeFileFromDB = (inputRef, key, fileNames) => {
+        const filesCopy = [...files];
+        filesCopy.splice(key, 1);
+        setFiles(filesCopy);
+
+        inputRef.current.value = "";
+
+        removeFiles(fileNames);
+    };
+
+    const removeFiles = (fileNames) => {
         const filePaths = fileNames.map((name) => `${task.id}/${name}`);
-        supabase.storage.from("attachments").remove(filePaths);
+        supabase.storage
+            .from("attachments")
+            .remove(filePaths)
+            .then(({ data, error }) => {
+                if (!error) {
+                    closeConfirm();
+                    showAlert("Successfully deleted a file");
+                }
+            });
     };
 
     const uploadFile = (inputRef) => {
-        setAlert({
-            ...alert,
-            display: false,
-        });
-        clearTimeout(alert.timeout);
+        closeAlert();
         const uploadedFiles = inputRef.current.files;
 
         Array.from(uploadedFiles).forEach((attachment) => {
@@ -278,8 +300,7 @@ function Task({ task }) {
                         multiple
                         blobs={blobs}
                         uploadedFiles={files}
-                        setUploadedFiles={setFiles}
-                        removeFileFromDB={removeFileFromDB}
+                        removeFile={removeFile}
                         uploadFile={uploadFile}
                     ></FileUpload>
                 </div>
@@ -293,7 +314,7 @@ function Task({ task }) {
                     type="tertiary"
                 >
                     <svg
-                        fill="defaultColor"
+                        fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 640 640"
                     >
