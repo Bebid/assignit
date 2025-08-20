@@ -26,6 +26,7 @@ function Task({ task }) {
         timeout: null,
         message: "",
         onClose: null,
+        type: "success",
     });
 
     const [confirm, setConfirm] = useState({
@@ -37,6 +38,17 @@ function Task({ task }) {
     const closeAlert = () => {
         setAlert((prev) => {
             return { ...prev, display: false };
+        });
+    };
+
+    const showAlert = (message, type = "success") => {
+        const timeout = setTimeout(closeAlert, 5000);
+        setAlert({
+            display: true,
+            message: message,
+            timeout: timeout,
+            onClose: closeAlert,
+            type: type,
         });
     };
 
@@ -53,13 +65,7 @@ function Task({ task }) {
             })
             .eq("id", task.id)
             .then((result) => {
-                const timeout = setTimeout(closeAlert, 5000);
-                setAlert({
-                    display: true,
-                    message: `Successfully changed the status!`,
-                    timeout: timeout,
-                    onClose: closeAlert,
-                });
+                showAlert("Successfully changed the status!");
             });
     };
 
@@ -116,15 +122,11 @@ function Task({ task }) {
             })
             .eq("id", task.id)
             .then((result) => {
-                const timeout = setTimeout(closeAlert, 5000);
-                setAlert({
-                    display: true,
-                    message: `Successfully assigned to ${
+                showAlert(
+                    `Successfully assigned to ${
                         users.find((user) => user.id == userId).text
-                    }!`,
-                    timeout: timeout,
-                    onClose: closeAlert,
-                });
+                    }!`
+                );
             });
     };
 
@@ -189,14 +191,7 @@ function Task({ task }) {
                         display: false,
                     };
                 });
-                const timeout = setTimeout(closeAlertAndRedirect, 5000);
-                setAlert({
-                    ...alert,
-                    display: true,
-                    timeout: timeout,
-                    message: `Successfully deleted a task!`,
-                    onClose: closeAlertAndRedirect,
-                });
+                showAlert("Successfully deleted a task!");
             });
     };
 
@@ -206,6 +201,11 @@ function Task({ task }) {
     };
 
     const uploadFile = (inputRef) => {
+        setAlert({
+            ...alert,
+            display: false,
+        });
+        clearTimeout(alert.timeout);
         const uploadedFiles = inputRef.current.files;
 
         Array.from(uploadedFiles).forEach((attachment) => {
@@ -219,6 +219,8 @@ function Task({ task }) {
 
                 if (!error) {
                     setFiles((files) => [...files, attachment]);
+                } else {
+                    showAlert(`Selected file(s) already exist`, "danger");
                 }
             });
         });
