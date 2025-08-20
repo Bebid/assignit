@@ -9,12 +9,13 @@ const Input = React.forwardRef(
             label,
             placeholder = `Enter ${id} here`,
             type = "text",
-            isText = false,
             value = "",
             invalid,
             allowEdit,
             onSave,
             independent = false,
+            isText = false,
+            textType,
         },
         ref
     ) => {
@@ -30,7 +31,7 @@ const Input = React.forwardRef(
         };
         return (
             <div className={`form-input ${invalid ? "invalid" : ""}`}>
-                <label htmlFor={id}>{label}</label>
+                {label && <label htmlFor={id}>{label}</label>}
                 {editMode ? (
                     <input
                         ref={ref}
@@ -43,6 +44,8 @@ const Input = React.forwardRef(
                             setInputValue(e.target.value);
                         }}
                     ></input>
+                ) : textType == "headline" ? (
+                    <h2 onClick={() => enableEditMode()}>{inputValue}</h2>
                 ) : (
                     <p onClick={() => enableEditMode()}>{inputValue}</p>
                 )}

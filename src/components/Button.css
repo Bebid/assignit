@@ -40,3 +40,16 @@
     border-color: var(--color-white-hover);
     color: var(--color-white-hover);
 }
+
+.button.tertiary {
+    border: 0;
+    background-color: transparent;
+    color: var(--color-black);
+}
+.button.tertiary:hover {
+    background-color: var(--color-grey);
+}
+
+.button > svg {
+    height: 20px;
+}

@@ -19,11 +19,11 @@ body,
 #root {
     height: 100%;
     width: 100%;
+    background-color: var(--color-grey);
 }
 
 body {
     font-family: "Roboto";
-    background-color: var(--color-grey);
 }
 
 h1 {
