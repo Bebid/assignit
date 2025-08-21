@@ -20,7 +20,7 @@ function Confirm({ value, setValue }) {
                         size="small"
                         onClick={() => setValue({ ...value, display: false })}
                     >
-                        Cancel
+                        {value.cancelText || "Cancel"}
                     </Button>
                     <Button size="small" onClick={() => value.action()}>
                         {value.actionText}

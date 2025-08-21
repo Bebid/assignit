@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 
 import "./Alert.css";
 
-function Alert({ value: { display, message, onClose, type = "success" } }) {
+function Alert({
+    value: { display = false, message = "", onClose = null, type = "success" },
+}) {
     return ReactDOM.createPortal(
         <div className={`alert ${display ? "show" : ""}`}>
             <div className="alert-box">
