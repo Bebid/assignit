@@ -33,6 +33,7 @@
     align-items: center;
     justify-content: center;
     border: none;
+    flex-shrink: 0;
 }
 
 .alert-icon.success {
@@ -43,8 +44,13 @@
     background: red;
 }
 
+.alert-icon.info {
+    background-color: blue;
+}
+
 .alert-icon.success svg,
-.alert-icon.danger svg {
+.alert-icon.danger svg,
+.alert-icon.info svg {
     color: white;
 }
 

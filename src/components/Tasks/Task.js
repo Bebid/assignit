@@ -96,7 +96,7 @@ function Task({ task }) {
     };
 
     const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
-        const timeout = setTimeout(timeoutFn, 5000);
+        const timeout = setTimeout(timeoutFn, 2000);
         setAlert({
             display: true,
             message: message,
@@ -124,7 +124,7 @@ function Task({ task }) {
             })
             .eq("id", task.id)
             .then((result) => {
-                showAlert("Successfully changed the status!");
+                showAlert("Status updated.");
             });
     };
 
@@ -138,9 +138,9 @@ function Task({ task }) {
             .eq("id", task.id)
             .then((result) => {
                 showAlert(
-                    `Successfully assigned to ${
+                    `Assigned to ${
                         users.find((user) => user.id == userId).text
-                    }!`
+                    }.`
                 );
             });
     };

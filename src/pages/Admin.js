@@ -52,14 +52,19 @@ function Admin() {
             .eq("id", usersCopy[key].id)
             .then(() => {
                 setUsers(usersCopy);
-                showAlert("Successfully changed user role");
+                showAlert(
+                    `You've changed ${usersCopy[key].name} role to ${
+                        roles.find((oRole) => oRole.id == role).text
+                    }`
+                );
             });
     };
 
     const toggleAdminAccess = (key) => {
         closeAlert();
         let usersCopy = [...users];
-        usersCopy[key].isAdmin = !usersCopy[key].isAdmin;
+        let isAdmin = !usersCopy[key].isAdmin;
+        usersCopy[key].isAdmin = isAdmin;
 
         supabase
             .from("users")
@@ -69,7 +74,15 @@ function Admin() {
             .eq("id", usersCopy[key].id)
             .then(() => {
                 setUsers(usersCopy);
-                showAlert("Successfully changed admin access");
+                isAdmin
+                    ? showAlert(
+                          `You've granted Admin access to ${usersCopy[key].name}`,
+                          "info"
+                      )
+                    : showAlert(
+                          `${usersCopy[key].name} no longer has Admin rights.`,
+                          "info"
+                      );
             });
     };
 

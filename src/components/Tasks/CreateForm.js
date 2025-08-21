@@ -68,7 +68,7 @@ function CreateFrom() {
     };
 
     const showAlert = (message, redirect) => {
-        const timeout = setTimeout(() => closeAlertAndRedirect(redirect), 5000);
+        const timeout = setTimeout(() => closeAlertAndRedirect(redirect), 2000);
         setAlert({
             display: true,
             message: message,
@@ -133,7 +133,7 @@ function CreateFrom() {
 
             setFormDisabled(true);
             showAlert(
-                "Successfully created a task!",
+                "Task created! Redirecting...",
                 `/tasks/view/${tasks[0].id}`
             );
         }, 0);
