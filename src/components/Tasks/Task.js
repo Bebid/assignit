@@ -35,46 +35,10 @@ function Task({ task }) {
         message: "",
     });
 
-    const closeAlert = () => {
-        setAlert((prev) => {
-            return { ...prev, display: false };
-        });
+    const descInputRef = useRef(null);
+    const titleInputRef = useRef(null);
 
-        clearTimeout(alert.timeout);
-    };
-
-    const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
-        const timeout = setTimeout(timeoutFn, 5000);
-        setAlert({
-            display: true,
-            message: message,
-            timeout: timeout,
-            onClose: closeAlert,
-            type: type,
-        });
-    };
-
-    const closeConfirm = () => {
-        setConfirm((confirm) => {
-            return {
-                ...confirm,
-                display: false,
-            };
-        });
-    };
-
-    const changeStatus = (status) => {
-        closeAlert();
-        supabase
-            .from("tasks")
-            .update({
-                status: status,
-            })
-            .eq("id", task.id)
-            .then((result) => {
-                showAlert("Successfully changed the status!");
-            });
-    };
+    const navigate = useNavigate();
 
     useEffect(() => {
         supabase
@@ -116,6 +80,54 @@ function Task({ task }) {
             });
     }, []);
 
+    const closeAlert = () => {
+        setAlert((prev) => {
+            return { ...prev, display: false };
+        });
+
+        clearTimeout(alert.timeout);
+    };
+
+    const closeAlertAndRedirect = () => {
+        setAlert((prev) => {
+            return { ...prev, display: false };
+        });
+        navigate("/home");
+    };
+
+    const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
+        const timeout = setTimeout(timeoutFn, 5000);
+        setAlert({
+            display: true,
+            message: message,
+            timeout: timeout,
+            onClose: closeAlert,
+            type: type,
+        });
+    };
+
+    const closeConfirm = () => {
+        setConfirm((confirm) => {
+            return {
+                ...confirm,
+                display: false,
+            };
+        });
+    };
+
+    const changeStatus = (status) => {
+        closeAlert();
+        supabase
+            .from("tasks")
+            .update({
+                status: status,
+            })
+            .eq("id", task.id)
+            .then((result) => {
+                showAlert("Successfully changed the status!");
+            });
+    };
+
     const setAssigneeOnDb = (userId) => {
         closeAlert();
         supabase
@@ -133,8 +145,6 @@ function Task({ task }) {
             });
     };
 
-    const descInputRef = useRef(null);
-
     const updateDescription = () => {
         supabase
             .from("tasks")
@@ -147,7 +157,6 @@ function Task({ task }) {
             });
     };
 
-    const titleInputRef = useRef(null);
     const updateTitle = () => {
         supabase
             .from("tasks")
@@ -160,24 +169,17 @@ function Task({ task }) {
             });
     };
 
-    const closeAlertAndRedirect = () => {
-        setAlert((prev) => {
-            return { ...prev, display: false };
-        });
-        navigate("/home");
-    };
-    const navigate = useNavigate();
-    const deleteTask = () => {
+    const confirmDeleteTask = () => {
         closeAlert();
         setConfirm({
             display: true,
             message: "Do you really want to delete this item?",
             actionText: "Delete",
-            action: deleteTaskFromDB,
+            action: deleteTask,
         });
     };
 
-    const deleteTaskFromDB = () => {
+    const deleteTask = () => {
         files.length > 0 && removeFiles(files.map((file) => file.name));
         supabase
             .from("tasks")
@@ -193,17 +195,17 @@ function Task({ task }) {
             });
     };
 
-    const removeFile = (inputRef, key, fileNames) => {
+    const confirmRemoveFile = (inputRef, key, fileNames) => {
         closeAlert();
         setConfirm({
             display: true,
             message: "Do you really want to delete this file?",
             actionText: "Delete",
-            action: () => removeFileFromDB(inputRef, key, fileNames),
+            action: () => removeFile(inputRef, key, fileNames),
         });
     };
 
-    const removeFileFromDB = (inputRef, key, fileNames) => {
+    const removeFile = (inputRef, key, fileNames) => {
         const filesCopy = [...files];
         filesCopy.splice(key, 1);
         setFiles(filesCopy);
@@ -300,7 +302,7 @@ function Task({ task }) {
                         multiple
                         blobs={blobs}
                         uploadedFiles={files}
-                        removeFile={removeFile}
+                        removeFile={confirmRemoveFile}
                         uploadFile={uploadFile}
                     ></FileUpload>
                 </div>
@@ -309,7 +311,7 @@ function Task({ task }) {
             <div className="task-actions">
                 <Button
                     onClick={() => {
-                        deleteTask();
+                        confirmDeleteTask();
                     }}
                     type="tertiary"
                 >
