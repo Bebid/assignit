@@ -5,9 +5,30 @@ import Dropdown from "../components/Form/Dropdown";
 import supabase from "../supabase";
 import { roles } from "../data";
 import Checkbox from "../components/Form/Checkbox";
+import Alert from "../components/Alert";
 
 function Admin() {
     const [users, setUsers] = useState([]);
+    const [alert, setAlert] = useState({});
+
+    const closeAlert = () => {
+        setAlert((prev) => {
+            return { ...prev, display: false };
+        });
+
+        clearTimeout(alert.timeout);
+    };
+
+    const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
+        const timeout = setTimeout(timeoutFn, 5000);
+        setAlert({
+            display: true,
+            message: message,
+            timeout: timeout,
+            onClose: closeAlert,
+            type: type,
+        });
+    };
 
     useEffect(() => {
         supabase
@@ -19,6 +40,7 @@ function Admin() {
     }, []);
 
     const changeUserRole = (key, role) => {
+        closeAlert();
         let usersCopy = [...users];
         usersCopy[key].role = role;
 
@@ -30,9 +52,12 @@ function Admin() {
             .eq("id", usersCopy[key].id)
             .then(() => {
                 setUsers(usersCopy);
+                showAlert("Successfully changed user role");
             });
     };
+
     const toggleAdminAccess = (key) => {
+        closeAlert();
         let usersCopy = [...users];
         usersCopy[key].isAdmin = !usersCopy[key].isAdmin;
 
@@ -44,6 +69,7 @@ function Admin() {
             .eq("id", usersCopy[key].id)
             .then(() => {
                 setUsers(usersCopy);
+                showAlert("Successfully changed admin access");
             });
     };
 
@@ -91,6 +117,7 @@ function Admin() {
                     </section>
                 </div>
             </main>
+            <Alert value={alert}></Alert>
         </>
     );
 }
