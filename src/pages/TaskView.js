@@ -4,6 +4,7 @@ import Task from "../components/Tasks/Task";
 import { useParams } from "react-router-dom";
 import { SessionContext } from "../App";
 import supabase from "../supabase";
+import NoAccess from "../components/NoAccess";
 
 function TaskView() {
     const { id } = useParams();
@@ -33,7 +34,7 @@ function TaskView() {
                     {!taskLoading &&
                         (user.id != task.created_by.id &&
                         user.id != task.assigned_to.id ? (
-                            "Permission Denied"
+                            <NoAccess></NoAccess>
                         ) : (
                             <Task task={task}></Task>
                         ))}
