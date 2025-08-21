@@ -188,7 +188,7 @@ function Task({ task }) {
             .then((result) => {
                 closeConfirm();
                 showAlert(
-                    "Successfully deleted a task!",
+                    "Task deleted successfully.",
                     "success",
                     closeAlertAndRedirect
                 );
@@ -223,7 +223,7 @@ function Task({ task }) {
             .then(({ data, error }) => {
                 if (!error) {
                     closeConfirm();
-                    showAlert("Successfully deleted a file");
+                    showAlert("File deleted successfully.");
                 }
             });
     };
@@ -244,7 +244,10 @@ function Task({ task }) {
                 if (!error) {
                     setFiles((files) => [...files, attachment]);
                 } else {
-                    showAlert(`Selected file(s) already exist`, "danger");
+                    showAlert(
+                        `A file with this name already exists.`,
+                        "danger"
+                    );
                 }
             });
         });
