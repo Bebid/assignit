@@ -20,7 +20,7 @@ function Admin() {
     };
 
     const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
-        const timeout = setTimeout(timeoutFn, 5000);
+        const timeout = setTimeout(timeoutFn, 3000);
         setAlert({
             display: true,
             message: message,

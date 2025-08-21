@@ -96,7 +96,7 @@ function Task({ task }) {
     };
 
     const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
-        const timeout = setTimeout(timeoutFn, 2000);
+        const timeout = setTimeout(timeoutFn, 3000);
         setAlert({
             display: true,
             message: message,

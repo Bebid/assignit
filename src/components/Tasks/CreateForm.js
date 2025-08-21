@@ -68,7 +68,7 @@ function CreateFrom() {
     };
 
     const showAlert = (message, redirect) => {
-        const timeout = setTimeout(() => closeAlertAndRedirect(redirect), 2000);
+        const timeout = setTimeout(() => closeAlertAndRedirect(redirect), 3000);
         setAlert({
             display: true,
             message: message,
