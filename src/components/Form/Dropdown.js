@@ -18,6 +18,10 @@ function Dropdown({
     }
     function selectItem(id) {
         setOpen(false);
+        if (id == selectedId) {
+            return;
+        }
+
         setSelectedId(id);
         onSelect && onSelect(id);
     }
@@ -45,7 +49,13 @@ function Dropdown({
                 </button>
                 <ul>
                     {items.map((item) => (
-                        <li key={item.id} onClick={() => selectItem(item.id)}>
+                        <li
+                            className={`${
+                                item.id == selectedId ? "active" : ""
+                            }`}
+                            key={item.id}
+                            onClick={() => selectItem(item.id)}
+                        >
                             {item.text}
                         </li>
                     ))}

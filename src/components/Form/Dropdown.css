@@ -55,7 +55,8 @@
     cursor: pointer;
 }
 
-.dropdown ul li:hover {
+.dropdown ul li:hover,
+.dropdown ul li.active {
     background-color: var(--color-grey);
 }
 
