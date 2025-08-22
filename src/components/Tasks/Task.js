@@ -230,11 +230,14 @@ function Task({ task }) {
             });
     };
 
-    const uploadFile = (inputRef) => {
+    const uploadFile = (uploadedFiles) => {
         closeAlert();
-        const uploadedFiles = inputRef.current.files;
 
         Array.from(uploadedFiles).forEach((attachment) => {
+            setFiles((prev) => [
+                ...prev,
+                { uploading: true, id: attachment.lastModified },
+            ]);
             setTimeout(async () => {
                 const { data, error } = await supabase.storage
                     .from("attachments")
@@ -244,12 +247,24 @@ function Task({ task }) {
                     });
 
                 if (!error) {
-                    setFiles((files) => [...files, attachment]);
+                    setFiles((prev) => {
+                        let filesCopy = [...prev];
+                        let index = filesCopy.findIndex(
+                            (file) => file.id == attachment.lastModified
+                        );
+                        filesCopy[index] = attachment;
+                        return filesCopy;
+                    });
                 } else {
-                    showAlert(
-                        `A file with this name already exists.`,
-                        "danger"
-                    );
+                    setFiles((prev) => {
+                        let filesCopy = [...prev];
+                        let index = filesCopy.findIndex(
+                            (file) => file.id == attachment.lastModified
+                        );
+                        filesCopy.splice(index, 1);
+                        return filesCopy;
+                    });
+                    showAlert(error.message, "danger");
                 }
             });
         });

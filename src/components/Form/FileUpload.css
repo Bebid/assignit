@@ -35,3 +35,13 @@
     text-overflow: ellipsis;
     width: auto;
 }
+
+.files li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.files li a svg {
+    height: 24px;
+}

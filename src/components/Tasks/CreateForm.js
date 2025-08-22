@@ -143,8 +143,7 @@ function CreateFrom() {
         navigate(-1);
     };
 
-    const uploadFile = (inputRef) => {
-        const uploadedFiles = inputRef.current.files;
+    const uploadFile = (uploadedFiles) => {
         setFiles([...files, ...uploadedFiles]);
     };
 
