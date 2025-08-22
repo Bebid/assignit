@@ -22,6 +22,10 @@ body,
     background-color: var(--color-grey);
 }
 
+#root {
+    overflow: auto;
+}
+
 body {
     font-family: "Roboto";
 }
@@ -44,7 +48,7 @@ a {
 }
 
 main {
-    padding-top: 40px;
+    padding: 40px 0;
 }
 
 label {
@@ -82,12 +86,22 @@ label {
         gap: 60px;
     }
     main {
-        padding-top: 60px;
+        padding: 60px 0;
     }
 }
 
 @media (min-width: 1440px) {
     .container {
         padding: 0 80px;
+    }
+}
+
+/* animations */
+.blinking {
+    animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+    50% {
+        opacity: 0;
     }
 }
