@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./CreateForm.css";
@@ -12,6 +18,7 @@ import supabase from "../../supabase";
 import FileUpload from "../Form/FileUpload";
 import Alert from "../Alert";
 import Confirm from "../Modals/Confirm";
+import { alertReducer } from "../../reducers/alertReducer";
 
 function CreateFrom() {
     const { session } = useContext(SessionContext);
@@ -28,12 +35,14 @@ function CreateFrom() {
 
     const [formDisabled, setFormDisabled] = useState(false);
 
-    const [alert, setAlert] = useState({});
+    const [alert, dispatchAlert] = useReducer(alertReducer, {});
     const [confirm, setConfirm] = useState({
         display: false,
         action: null,
         message: "",
     });
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         supabase
@@ -55,26 +64,6 @@ function CreateFrom() {
             actionText: "Discard",
             cancelText: "Continue Editing",
             action: back,
-        });
-    };
-
-    const navigate = useNavigate();
-
-    const closeAlertAndRedirect = (redirect) => {
-        setAlert((prev) => {
-            return { ...prev, display: false };
-        });
-        navigate(redirect);
-    };
-
-    const showAlert = (message, redirect) => {
-        const timeout = setTimeout(() => closeAlertAndRedirect(redirect), 3000);
-        setAlert({
-            display: true,
-            message: message,
-            timeout: timeout,
-            onClose: () => closeAlertAndRedirect(redirect),
-            type: "success",
         });
     };
 
@@ -132,10 +121,16 @@ function CreateFrom() {
             }
 
             setFormDisabled(true);
-            showAlert(
-                "Task created! Redirecting...",
-                `/tasks/view/${tasks[0].id}`
-            );
+
+            dispatchAlert({
+                type: "open",
+                alert: {
+                    message: "Task created! Redirecting...",
+                    timeout: setTimeout(() => {
+                        navigate(`/tasks/view/${tasks[0].id}`);
+                    }, 3000),
+                },
+            });
         }, 0);
     };
 

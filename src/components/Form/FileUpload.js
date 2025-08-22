@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useReducer, useRef, useState } from "react";
 
 import "./FileUpload.css";
 
 import Button from "../Button";
 import Alert from "../Alert";
+import { alertReducer } from "../../reducers/alertReducer";
 
 function FileUpload({
     multiple = false,
@@ -13,26 +14,7 @@ function FileUpload({
     uploadFile,
 }) {
     const inputRef = useRef(null);
-    const [alert, setAlert] = useState({});
-
-    const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
-        const timeout = setTimeout(timeoutFn, 3000);
-        setAlert({
-            display: true,
-            message: message,
-            timeout: timeout,
-            onClose: closeAlert,
-            type: type,
-        });
-    };
-
-    const closeAlert = () => {
-        setAlert((prev) => {
-            return { ...prev, display: false };
-        });
-
-        clearTimeout(alert.timeout);
-    };
+    const [alert, dispatchAlert] = useReducer(alertReducer, {});
 
     const selectFileInput = () => {
         inputRef.current.click();
@@ -62,14 +44,21 @@ function FileUpload({
 
         if (selectedFiles.length != files.length) {
             inputRef.current.value = "";
-            showAlert(
-                hasFileNameExist && hasFileSizeNotAllowed
-                    ? "Some files were not uploaded because they already exist and exceed the size limit 50mb."
-                    : hasFileNameExist
-                    ? "Some files were not uploaded because a file with the same name already exists."
-                    : "Some files were not uploaded because they exceed the size limit 50mb.",
-                "danger"
-            );
+            dispatchAlert({
+                type: "open",
+                alert: {
+                    message:
+                        hasFileNameExist && hasFileSizeNotAllowed
+                            ? "Some files were not uploaded because they already exist and exceed the size limit 50mb."
+                            : hasFileNameExist
+                            ? "Some files were not uploaded because a file with the same name already exists."
+                            : "Some files were not uploaded because they exceed the size limit 50mb.",
+                    type: "danger",
+                    timeout: setTimeout(() => {
+                        dispatchAlert({ type: "close" });
+                    }, 3000),
+                },
+            });
         }
 
         uploadFile(files);

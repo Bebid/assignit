@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Task.css";
@@ -14,6 +20,7 @@ import FileUpload from "../Form/FileUpload";
 import Alert from "../Alert";
 import Confirm from "../Modals/Confirm";
 import { SessionContext } from "../../App";
+import { alertReducer } from "../../reducers/alertReducer";
 
 function Task({ task }) {
     const { session } = useContext(SessionContext);
@@ -23,13 +30,7 @@ function Task({ task }) {
     const [gettingUsers, setGettingUsers] = useState(true);
     const [blobs, setBlobs] = useState([]);
 
-    const [alert, setAlert] = useState({
-        display: false,
-        timeout: null,
-        message: "",
-        onClose: null,
-        type: "success",
-    });
+    const [alert, dispatchAlert] = useReducer(alertReducer, {});
 
     const [confirm, setConfirm] = useState({
         display: false,
@@ -82,32 +83,6 @@ function Task({ task }) {
             });
     }, []);
 
-    const closeAlert = () => {
-        setAlert((prev) => {
-            return { ...prev, display: false };
-        });
-
-        clearTimeout(alert.timeout);
-    };
-
-    const closeAlertAndRedirect = () => {
-        setAlert((prev) => {
-            return { ...prev, display: false };
-        });
-        navigate("/home");
-    };
-
-    const showAlert = (message, type = "success", timeoutFn = closeAlert) => {
-        const timeout = setTimeout(timeoutFn, 3000);
-        setAlert({
-            display: true,
-            message: message,
-            timeout: timeout,
-            onClose: closeAlert,
-            type: type,
-        });
-    };
-
     const closeConfirm = () => {
         setConfirm((confirm) => {
             return {
@@ -118,7 +93,7 @@ function Task({ task }) {
     };
 
     const changeStatus = (status) => {
-        closeAlert();
+        dispatchAlert({ type: "close" });
         supabase
             .from("tasks")
             .update({
@@ -126,12 +101,20 @@ function Task({ task }) {
             })
             .eq("id", task.id)
             .then((result) => {
-                showAlert("Status updated.");
+                dispatchAlert({
+                    type: "open",
+                    alert: {
+                        message: "Status updated!",
+                        timeout: setTimeout(() => {
+                            dispatchAlert({ type: "close" });
+                        }, 3000),
+                    },
+                });
             });
     };
 
     const setAssigneeOnDb = (userId) => {
-        closeAlert();
+        dispatchAlert({ type: "close" });
         supabase
             .from("tasks")
             .update({
@@ -139,11 +122,17 @@ function Task({ task }) {
             })
             .eq("id", task.id)
             .then((result) => {
-                showAlert(
-                    `Assigned to ${
-                        users.find((user) => user.id == userId).text
-                    }.`
-                );
+                dispatchAlert({
+                    type: "open",
+                    alert: {
+                        message: `Assigned to ${
+                            users.find((user) => user.id == userId).text
+                        }.`,
+                        timeout: setTimeout(() => {
+                            dispatchAlert({ type: "close" });
+                        }, 3000),
+                    },
+                });
             });
     };
 
@@ -172,7 +161,7 @@ function Task({ task }) {
     };
 
     const confirmDeleteTask = () => {
-        closeAlert();
+        dispatchAlert({ type: "close" });
         setConfirm({
             display: true,
             message: "Do you really want to delete this item?",
@@ -189,16 +178,20 @@ function Task({ task }) {
             .eq("id", task.id)
             .then((result) => {
                 closeConfirm();
-                showAlert(
-                    "Task deleted successfully.",
-                    "success",
-                    closeAlertAndRedirect
-                );
+                dispatchAlert({
+                    type: "open",
+                    alert: {
+                        message: "Task deleted successfully.",
+                        timeout: setTimeout(() => {
+                            navigate("/home");
+                        }, 1000),
+                    },
+                });
             });
     };
 
     const confirmRemoveFile = (inputRef, key, fileNames) => {
-        closeAlert();
+        dispatchAlert({ type: "close" });
         setConfirm({
             display: true,
             message: "Do you really want to delete this file?",
@@ -225,13 +218,22 @@ function Task({ task }) {
             .then(({ data, error }) => {
                 if (!error) {
                     closeConfirm();
-                    showAlert("File deleted successfully.");
+
+                    dispatchAlert({
+                        type: "open",
+                        alert: {
+                            message: "File deleted successfully.",
+                            timeout: setTimeout(() => {
+                                dispatchAlert({ type: "close" });
+                            }, 3000),
+                        },
+                    });
                 }
             });
     };
 
     const uploadFile = (uploadedFiles) => {
-        closeAlert();
+        dispatchAlert({ type: "close" });
 
         Array.from(uploadedFiles).forEach((attachment) => {
             setFiles((prev) => [
@@ -264,7 +266,16 @@ function Task({ task }) {
                         filesCopy.splice(index, 1);
                         return filesCopy;
                     });
-                    showAlert(error.message, "danger");
+                    dispatchAlert({
+                        type: "open",
+                        alert: {
+                            message: error.message,
+                            type: "danger",
+                            timeout: setTimeout(() => {
+                                dispatchAlert({ type: "close" });
+                            }, 3000),
+                        },
+                    });
                 }
             });
         });
