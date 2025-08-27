@@ -3,12 +3,7 @@ import { SessionContext } from "../App";
 import { Navigate } from "react-router-dom";
 
 function AuthRegisteredUser({ children }) {
-    const { gettingSession, session, user } = useContext(SessionContext);
-
-    if (gettingSession) {
-        return <div>Loading</div>;
-    }
-
+    const { session, user } = useContext(SessionContext);
     if (!session) {
         return <Navigate to="/" />;
     }

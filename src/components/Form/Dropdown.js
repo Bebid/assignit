@@ -26,10 +26,6 @@ function Dropdown({
         onSelect && onSelect(id);
     }
 
-    if (items.length == 0) {
-        return "Loading";
-    }
-
     return (
         <div
             className={`dropdown${invalid ? " invalid" : ""}${

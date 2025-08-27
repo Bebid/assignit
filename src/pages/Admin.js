@@ -10,6 +10,7 @@ import { alertReducer } from "../reducers/alertReducer";
 
 function Admin() {
     const [users, setUsers] = useState([]);
+    const [gettingUsers, setGettingUsers] = useState(true);
     const [alert, dispatchAlert] = useReducer(alertReducer, {});
 
     useEffect(() => {
@@ -18,6 +19,7 @@ function Admin() {
             .select()
             .then(({ data }) => {
                 setUsers(data);
+                setGettingUsers(false);
             });
     }, []);
 
@@ -86,40 +88,44 @@ function Admin() {
                 <div className="container">
                     <section id="admin">
                         <h2>User Management</h2>
-                        <ul className="user-list">
-                            <li>
-                                <strong>Name</strong>
-                                <strong>Role</strong>
-                                <strong>Admin Access</strong>
-                            </li>
-                            {users.map((user, key) => (
-                                <li key={user.id}>
-                                    <div>
-                                        <img src={user.photo}></img>
-                                        {user.name}
-                                    </div>
-                                    <div>
-                                        <Dropdown
-                                            className={`role-${user.role}`}
-                                            selected={user.role}
-                                            items={roles}
-                                            onSelect={(id) =>
-                                                changeUserRole(key, id)
-                                            }
-                                        ></Dropdown>
-                                    </div>
-                                    <div>
-                                        <Checkbox
-                                            checked={user.isAdmin}
-                                            onClick={() =>
-                                                toggleAdminAccess(key)
-                                            }
-                                            label="Admin Access"
-                                        ></Checkbox>
-                                    </div>
+                        {!gettingUsers ? (
+                            <ul className="user-list">
+                                <li>
+                                    <strong>Name</strong>
+                                    <strong>Role</strong>
+                                    <strong>Admin Access</strong>
                                 </li>
-                            ))}
-                        </ul>
+                                {users.map((user, key) => (
+                                    <li key={user.id}>
+                                        <div>
+                                            <img src={user.photo}></img>
+                                            {user.name}
+                                        </div>
+                                        <div>
+                                            <Dropdown
+                                                className={`role-${user.role}`}
+                                                selected={user.role}
+                                                items={roles}
+                                                onSelect={(id) =>
+                                                    changeUserRole(key, id)
+                                                }
+                                            ></Dropdown>
+                                        </div>
+                                        <div>
+                                            <Checkbox
+                                                checked={user.isAdmin}
+                                                onClick={() =>
+                                                    toggleAdminAccess(key)
+                                                }
+                                                label="Admin Access"
+                                            ></Checkbox>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div>Getting data...</div>
+                        )}
                     </section>
                 </div>
             </main>

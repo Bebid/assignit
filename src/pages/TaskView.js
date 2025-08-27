@@ -31,13 +31,16 @@ function TaskView() {
             <Header></Header>
             <main>
                 <div className="container">
-                    {!taskLoading &&
-                        (user.id != task.created_by.id &&
+                    {!taskLoading ? (
+                        user.id != task.created_by.id &&
                         user.id != task.assigned_to.id ? (
                             <NoAccess></NoAccess>
                         ) : (
                             <Task task={task}></Task>
-                        ))}
+                        )
+                    ) : (
+                        <div>Getting data...</div>
+                    )}
                 </div>
             </main>
         </div>

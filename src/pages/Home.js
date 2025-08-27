@@ -38,17 +38,22 @@ function Home() {
             <Header></Header>
             <main>
                 <div className="container gap-sm">
-                    {!gettingTasks && (
+                    {!gettingTasks ? (
                         <TasksList
                             headline="Tasks assigned to me"
                             tasks={tasks}
+                            defaultState={true}
                         ></TasksList>
+                    ) : (
+                        <div className="tasks">Getting Task...</div>
                     )}
-                    {!gettingCreatedTasks && (
+                    {!gettingCreatedTasks ? (
                         <TasksList
                             headline="Tasks I created"
                             tasks={createdTasks}
                         ></TasksList>
+                    ) : (
+                        <div className="tasks">Getting Task...</div>
                     )}
                 </div>
             </main>

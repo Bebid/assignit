@@ -13,6 +13,7 @@ import Admin from "./pages/Admin";
 import AuthNewUser from "./lib/AuthNewUser";
 import AuthRegisteredUser from "./lib/AuthRegisteredUser";
 import AuthAdmin from "./lib/AuthAdmin";
+import Loading from "./components/Loading";
 export const SessionContext = createContext();
 
 function App() {
@@ -59,86 +60,89 @@ function App() {
     }, []);
 
     return (
-        <Routes>
-            <Route
-                path="/"
-                element={
-                    <SessionContext.Provider
-                        value={{ session, gettingSession }}
-                    >
-                        <Login></Login>
-                    </SessionContext.Provider>
-                }
-            ></Route>
-            <Route
-                path="/home"
-                element={
-                    <SessionContext.Provider
-                        value={{ session, gettingSession, user }}
-                    >
-                        <AuthRegisteredUser>
-                            <Home></Home>
-                        </AuthRegisteredUser>
-                    </SessionContext.Provider>
-                }
-            ></Route>
-            <Route
-                path="/tasks/create"
-                element={
-                    <SessionContext.Provider
-                        value={{ session, gettingSession, user }}
-                    >
-                        <AuthRegisteredUser>
-                            <CreateTask></CreateTask>
-                        </AuthRegisteredUser>
-                    </SessionContext.Provider>
-                }
-            ></Route>
-            <Route
-                path="/tasks/view/:id"
-                element={
-                    <SessionContext.Provider
-                        value={{ session, gettingSession, user }}
-                    >
-                        <AuthRegisteredUser>
-                            <TaskView></TaskView>
-                        </AuthRegisteredUser>
-                    </SessionContext.Provider>
-                }
-            ></Route>
+        <>
+            <Loading isLoading={gettingSession}></Loading>
+            {!gettingSession && (
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <SessionContext.Provider
+                                value={{ session, gettingSession }}
+                            >
+                                <Login></Login>
+                            </SessionContext.Provider>
+                        }
+                    ></Route>
+                    <Route
+                        path="/home"
+                        element={
+                            <SessionContext.Provider
+                                value={{ session, gettingSession, user }}
+                            >
+                                <AuthRegisteredUser>
+                                    <Home></Home>
+                                </AuthRegisteredUser>
+                            </SessionContext.Provider>
+                        }
+                    ></Route>
+                    <Route
+                        path="/tasks/create"
+                        element={
+                            <SessionContext.Provider
+                                value={{ session, gettingSession, user }}
+                            >
+                                <AuthRegisteredUser>
+                                    <CreateTask></CreateTask>
+                                </AuthRegisteredUser>
+                            </SessionContext.Provider>
+                        }
+                    ></Route>
+                    <Route
+                        path="/tasks/view/:id"
+                        element={
+                            <SessionContext.Provider
+                                value={{ session, gettingSession, user }}
+                            >
+                                <AuthRegisteredUser>
+                                    <TaskView></TaskView>
+                                </AuthRegisteredUser>
+                            </SessionContext.Provider>
+                        }
+                    ></Route>
 
-            {/* Admin */}
-            <Route
-                path="/admin"
-                element={
-                    <SessionContext.Provider
-                        value={{ session, gettingSession, user }}
-                    >
-                        <AuthRegisteredUser>
-                            <AuthAdmin>
-                                <Admin></Admin>
-                            </AuthAdmin>
-                        </AuthRegisteredUser>
-                    </SessionContext.Provider>
-                }
-            ></Route>
+                    {/* Admin */}
+                    <Route
+                        path="/admin"
+                        element={
+                            <SessionContext.Provider
+                                value={{ session, gettingSession, user }}
+                            >
+                                <AuthRegisteredUser>
+                                    <AuthAdmin>
+                                        <Admin></Admin>
+                                    </AuthAdmin>
+                                </AuthRegisteredUser>
+                            </SessionContext.Provider>
+                        }
+                    ></Route>
 
-            <Route
-                path="/for-approval"
-                element={
-                    <SessionContext.Provider
-                        value={{ session, gettingSession, user }}
-                    >
-                        <AuthNewUser>
-                            <ForApproval></ForApproval>
-                        </AuthNewUser>
-                    </SessionContext.Provider>
-                }
-            ></Route>
-        </Routes>
+                    <Route
+                        path="/for-approval"
+                        element={
+                            <SessionContext.Provider
+                                value={{ session, gettingSession, user }}
+                            >
+                                <AuthNewUser>
+                                    <ForApproval></ForApproval>
+                                </AuthNewUser>
+                            </SessionContext.Provider>
+                        }
+                    ></Route>
+                </Routes>
+            )}
+        </>
     );
-    // return <CreateTask></CreateTask>;
-    // return <TaskView></TaskView>;
 }
 
 export default App;
