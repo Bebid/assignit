@@ -5,10 +5,10 @@ import TaskItem from "./TaskItem";
 import Dropdown from "../Form/Dropdown";
 import { statuses } from "../../data";
 
-function TasksList({ tasks, headline }) {
+function TasksList({ tasks, headline, defaultState = false }) {
     const [filteredTasks, setFilteredTasks] = useState(tasks);
     const [selectedStatus, setSelectedStatus] = useState("A");
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(defaultState);
 
     const filterList = (status) => {
         if (status == "A") {
