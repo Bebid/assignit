@@ -4,17 +4,12 @@
     padding: 32px;
 }
 .tasks > section {
-    height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity ease-in-out 0.3s;
+    padding-top: 24px;
+    display: none;
 }
 
-.tasks.open section {
-    padding-top: 24px;
-    opacity: 100%;
-    visibility: visible;
-    height: 100%;
+.tasks.open > section {
+    display: block;
 }
 
 .tasks > button {
