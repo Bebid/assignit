@@ -32,8 +32,7 @@
     padding: 8px 16px;
 }
 
-.dropdown button img {
-    height: 8px;
+.dropdown button svg {
     transition: transform ease-in-out 0.3s;
 }
 .dropdown ul {
@@ -63,7 +62,7 @@
 .dropdown.open ul {
     display: block;
 }
-.dropdown.open button img {
+.dropdown.open button svg {
     transform: rotate(180deg);
 }
 

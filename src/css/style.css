@@ -54,7 +54,9 @@ main {
 label {
     font-weight: bold;
 }
-
+svg {
+    height: 20px;
+}
 /* classes */
 .container {
     width: 100%;
@@ -98,6 +100,11 @@ label {
 .loading.show {
     opacity: 1;
     z-index: 3;
+}
+.pill {
+    padding: 4px 8px;
+    border-radius: 24px;
+    background-color: var(--color-grey);
 }
 @media (min-width: 768px) {
     .container {

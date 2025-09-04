@@ -1,19 +1,45 @@
-header .container {
-    background-color: var(--color-black);
-    border-radius: 0 0 32px 32px;
-    padding: 24px 32px;
-    color: var(--color-white);
-    position: relative;
+header {
+    .container {
+        background-color: var(--color-black);
+        border-radius: 0 0 32px 32px;
+        padding: 24px 32px;
+        color: var(--color-white);
+        position: relative;
 
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
 
-    transition: gap ease-in-out 0.3s;
+        transition: gap ease-in-out 0.3s;
+    }
+
+    :has(.mobile-menu:not(.open)) {
+        gap: 0;
+    }
+
+    a {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .nav-button a {
+        color: white !important;
+        border: 2px solid white;
+        border-radius: 24px;
+        padding: 8px 16px;
+        width: max-content;
+    }
+
+    .logo {
+        height: 36px;
+    }
 }
 
-.container:has(.mobile-menu:not(.open)) {
-    gap: 0;
+.mobile-menu,
+.desktop-menu {
+    display: flex;
+    justify-content: space-between;
 }
 
 .mobile-menu {
@@ -21,51 +47,41 @@ header .container {
     height: 0;
     overflow: hidden;
     transition: all ease-in-out 0.3s;
-}
 
-.mobile-menu.open {
-    height: 191px;
-}
+    &.open {
+        height: 191px;
+    }
 
-.mobile-menu.is-admin.open {
-    height: 234px;
-}
+    &.is-admin.open {
+        height: 234px;
+    }
 
-.mobile-menu ul li > * {
-    padding: 12px 0;
-}
+    a {
+        color: var(--color-white);
+        transition: color ease-in-out 0.3s;
+    }
 
-.mobile-menu ul li > button {
-    margin: 12px 0;
-}
+    a:hover {
+        color: var(--color-white-hover);
+    }
 
-.mobile-menu a {
-    color: var(--color-white);
-    transition: color ease-in-out 0.3s;
-}
-
-.mobile-menu a:hover {
-    color: var(--color-white-hover);
+    ul li:not(.nav-button) > *,
+    .nav-button {
+        padding: 12px 0;
+    }
 }
 
 .desktop-menu {
-    display: flex;
-    justify-content: space-between;
-}
+    nav {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+    }
 
-.desktop-menu nav {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-}
-
-.desktop-menu ul {
-    display: none;
-    align-items: center;
-}
-
-.logo {
-    height: 36px;
+    ul {
+        display: none;
+        align-items: center;
+    }
 }
 
 .profile {
@@ -105,8 +121,12 @@ header .container {
 
     .desktop-menu a {
         padding: 8px 16px;
-        color: var(--color-white);
+        color: var(--color-white-hover);
         transition: color ease-in-out 0.3s;
+    }
+
+    .desktop-menu a.active {
+        color: var(--color-white);
     }
 
     .desktop-menu :not(.header-dropdown) a:hover {
@@ -140,7 +160,9 @@ header .container {
         transition: background-color ease-in-out 0.3s;
     }
 
-    .header-dropdown a:hover {
+    .header-dropdown a:hover,
+    .header-dropdown a.active {
+        color: var(--color-black);
         background-color: var(--color-grey);
     }
 

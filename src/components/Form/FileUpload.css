@@ -3,45 +3,41 @@
     flex-direction: column;
     gap: 8px;
     align-items: start;
-}
 
-.form-file input {
-    display: none;
+    input {
+        display: none;
+    }
 }
 
 .files {
     width: 100%;
-}
 
-.files li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    justify-content: space-between;
-}
+    li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        justify-content: space-between;
+    }
 
-.files li:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey);
-}
+    li:not(:last-child) {
+        border-bottom: 1px solid var(--color-grey);
+    }
 
-.files li:hover {
-    background-color: var(--color-grey);
-}
+    li:hover {
+        background-color: var(--color-grey);
+    }
 
-.files li p {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: auto;
-}
+    li p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: auto;
+    }
 
-.files li a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.files li a svg {
-    height: 24px;
+    li a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 }

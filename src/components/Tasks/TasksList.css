@@ -13,7 +13,16 @@
         background: none;
         width: 100%;
 
-        img {
+        display: flex;
+        justify-content: space-between;
+
+        h2 {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        svg {
             transition: transform ease-in-out 0.3s;
         }
     }
@@ -23,23 +32,18 @@
             display: block;
         }
 
-        > button img {
+        > button svg {
             transform: rotate(180deg);
         }
     }
-}
 
-.tasks-list-header {
-    display: flex;
-    justify-content: space-between;
-}
+    .tasks-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
 
-.tasks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.tasks-filter {
-    margin-bottom: 16px;
+    .tasks-filter {
+        margin-bottom: 16px;
+    }
 }

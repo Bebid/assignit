@@ -50,10 +50,6 @@
     background-color: var(--color-grey);
 }
 
-.button > svg {
-    height: 20px;
-}
-
 .button.icon {
     padding: 0;
     border: 0;
